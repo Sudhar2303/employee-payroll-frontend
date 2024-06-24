@@ -20,8 +20,8 @@ const App = () => {
         <AuthProvider>
           <Routes>
             <Route exact path='/' element={<LoginComponent/>}></Route>
-            <Route exact path='/admin/*' element={<AdminComponent/>}></Route>
-            <Route exact path='/hr/*' element={<HRComponent/>}></Route>
+            <Route exact path='/admin' element={<AdminComponent/>}></Route>
+            <Route exact path='/hr' element={<HRComponent/>}></Route>
           </Routes>
       </AuthProvider>
       </div>
