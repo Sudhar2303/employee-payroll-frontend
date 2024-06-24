@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check for the presence of the cookie (token)
     const token =  window.localStorage.getItem('token') // Make sure 'token' matches the name of your cookie
-
+    console.log(token)
     if (token) {
       setAuthenticated(true);
     } else {
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   const login = (token) => {
-    Cookies.set('token', token, { expires: 1 }); 
+    Cookies.set('token', token, { expires: '1h' }); 
     setAuthenticated(true);
     navigate('/admin'); // Redirect to admin after successful login
   };

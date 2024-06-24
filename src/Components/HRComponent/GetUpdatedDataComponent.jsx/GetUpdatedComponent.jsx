@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-
-const GetEmployeeData = () => {
+const GetUpdatedComponent = () => {
   const [EmployeeData,setEmployeeData] = useState([])
-
+ 
   useEffect(()=>
     {
-      axios.get('http://localhost:3500/api/v1/hr/getAllEmployee',{ withCredentials: true })
+      axios.get('https://employee-payroll-backend.vercel.app/api/v1/hr/getAllEmployee',{ withCredentials: true })
       .then((response)=>{
         setEmployeeData(response.data)
-        console.log(response.data)
       })
       .catch((error)=>
         {
@@ -21,20 +19,21 @@ const GetEmployeeData = () => {
           }
         })
     },[])
-
+    
   return (
     <div className="user-list">
-      {EmployeeData && EmployeeData.map((iterator)=>
+      {EmployeeData && EmployeeData.map((iterator)=>(
         <div className="user-card" key={iterator._id}>
-          <h3>EmployeeID : {iterator.employeeID}</h3>
-          <p className="status">Month : {iterator.month}</p>
-          <p className="status">PerDay Salary : {iterator.perDaySalary}</p>
-          <p className="status">Working Days : {iterator.workingDays}</p>
-          <p className="status">Monthly Salary : {iterator.salary}</p>
+            <h3>Employee Name: {iterator.employeeName}</h3>
+            <p className="status">perDaySalary : {iterator.perDaySalary}</p>
+            <p className="status">month : {iterator.month}</p>
+            <p className="status">workingDays : {iterator.workingDays}</p>
+            <p className="status">salary : {iterator.salary}</p>
         </div>
-      )}
+      ))}
+
     </div>
   )
 }
 
-export default GetEmployeeData
+export default GetUpdatedComponent

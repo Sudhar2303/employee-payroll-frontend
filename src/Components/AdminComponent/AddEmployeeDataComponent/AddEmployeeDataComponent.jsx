@@ -52,7 +52,7 @@ const AddEmployeeDataComponent = () => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
-    axios.post(`http://localhost:3500/api/v1/admin/addEmployee`,employeeData,{ withCredentials: true })
+    axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addEmployee`,employeeData,{ withCredentials: true })
     .then((response)=>
       {
         alert(`${employeeData.employeeName} is added successfully`)

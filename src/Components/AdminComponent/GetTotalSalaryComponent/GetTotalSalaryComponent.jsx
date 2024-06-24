@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 const GetTotalSalaryComponent = () => {
   const [totalSalary,setTotalSalary] = useState([])
 
   useEffect(()=>
     {
-      axios.get('http://localhost:3500/api/v1/admin/getTotalSalary',{ withCredentials: true })
+      axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getTotalSalary',{ withCredentials: true })
       .then((response)=>{
         const { totalSalary } = response.data[0]
         setTotalSalary(totalSalary)
@@ -24,8 +25,9 @@ const GetTotalSalaryComponent = () => {
 
   return (
     <div>
-      <h3>Total Salary is {totalSalary}</h3>
+      <h3>Total Salary is <FontAwesomeIcon icon= {faIndianRupeeSign} /> {totalSalary}</h3>
     </div>
+    
   )
 }
 

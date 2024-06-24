@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React,{ useState }  from 'react'
 import './LoginComponent.css'
+import Cookies from 'js-cookie';
+
 const LoginComponent = () => {
     const [emailID, setEmailID] = useState('')
     const [password, setPassword] = useState('')
@@ -17,7 +19,7 @@ const LoginComponent = () => {
         event.preventDefault()
 
         axios
-        .post(`http://localhost:3500/api/v1/login`,
+        .post(`https://employee-payroll-backend.vercel.app/api/v1/login`,
           {
             emailID:emailID,
             password:password
