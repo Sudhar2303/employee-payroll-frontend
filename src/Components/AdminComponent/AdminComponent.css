@@ -1,0 +1,67 @@
+/* Admin panel container styling */
+.admin-panel {
+  width: 80%;
+  max-width: 1200px;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+/* Admin panel title styling */
+.admin-title {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+/* Navigation bar styling */
+.admin-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.admin-nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+.admin-nav a:hover {
+  color: #0056b3;
+}
+
+/* User list styling */
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/* User card styling */
+.user-card {
+  background: #dbd9d9;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.user-card h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.user-card p {
+  margin: 0.25rem 0;
+}
