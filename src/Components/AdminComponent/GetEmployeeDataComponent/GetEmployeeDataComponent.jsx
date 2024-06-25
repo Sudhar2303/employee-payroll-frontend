@@ -15,8 +15,8 @@ const GetEmployeeDataComponent = () => {
         {
           console.log(error.message)
           if (error.response.status === 401) {
-            alert('Unauthorized access: Please log in.');
             window.location.href='/'
+            alert('Unauthorized access: Please log in.');
           }
         })
     },[])

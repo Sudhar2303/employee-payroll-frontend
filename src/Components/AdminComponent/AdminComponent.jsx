@@ -4,9 +4,9 @@ import { Link, Route, Router, Routes } from 'react-router-dom';
 import GetEmployeeDataComponent from './GetEmployeeDataComponent/GetEmployeeDataComponent';
 import AddEmployeeDataComponent from './AddEmployeeDataComponent/AddEmployeeDataComponent';
 import GetTotalSalaryComponent from './GetTotalSalaryComponent/GetTotalSalaryComponent';
+import { useNavigate } from 'react-router-dom';
 
 const AdminComponent = () => {
-
   return (
         <div className="main-content">
             <div className="admin-panel">
