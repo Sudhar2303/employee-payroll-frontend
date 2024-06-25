@@ -17,16 +17,14 @@ const AdminComponent = () => {
       .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`,{withCredentials: true})
       .then((response)=>{
         if(response.status==201)
-          {
-              // alert('Authorized user')
+          { // alert('Authorized user')
               setIsAdmin(true);
           }
       })
       .catch((error)=>{
         console.log(error)
-          // alert(`Status : ${error.message}`)
           // window.location.href='/'
-          navigate('/');       
+          navigate('/');  
       })
   },[])
   return (

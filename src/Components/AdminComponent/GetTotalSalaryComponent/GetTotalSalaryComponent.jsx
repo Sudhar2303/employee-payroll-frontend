@@ -10,8 +10,7 @@ const GetTotalSalaryComponent = () => {
       axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getTotalSalary',{ withCredentials: true })
       .then((response)=>{
         const { totalSalary } = response.data[0]
-        setTotalSalary(totalSalary)
-        console.log(response.data)
+        setTotalSalary(totalSalary.toFixed(2))
       })
       .catch((error)=>
         {
@@ -25,7 +24,7 @@ const GetTotalSalaryComponent = () => {
 
   return (
     <div>
-      <h3>Total Salary is <FontAwesomeIcon icon= {faIndianRupeeSign} /> {parseFloat(totalSalary.toFixed(2))}</h3>
+      <h3>Total Salary is <FontAwesomeIcon icon= {faIndianRupeeSign} /> {totalSalary}</h3>
     </div>
     
   )
