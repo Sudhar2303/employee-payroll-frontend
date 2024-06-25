@@ -25,7 +25,7 @@ const GetTotalSalaryComponent = () => {
 
   return (
     <div>
-      <h3>Total Salary is <FontAwesomeIcon icon= {faIndianRupeeSign} /> {totalSalary.toFixed(2)}</h3>
+      <h3>Total Salary is <FontAwesomeIcon icon= {faIndianRupeeSign} /> {parseFloat(totalSalary.toFixed(2))}</h3>
     </div>
     
   )
