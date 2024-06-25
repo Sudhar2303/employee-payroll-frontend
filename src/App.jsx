@@ -5,7 +5,6 @@ import HRComponent from './Components/HRComponent/HRComponent.jsx'
 
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
-import ProtectedRoute from './Components/AuthComponent/ProtectedRoute.jsx'
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -20,11 +19,9 @@ const App = () => {
           <h3>Employee Payroll</h3>
         </header>
           <Routes>
-            <Route path="/" element={<LoginComponent />} />
-            <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<LoginComponent />} />
                 <Route path="/admin/*" element={<AdminComponent />} />
                 <Route path="/hr/*" element={<HRComponent />} />
-            </Route>
           </Routes>
       </div>
       </BrowserRouter>

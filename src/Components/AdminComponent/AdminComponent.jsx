@@ -5,24 +5,49 @@ import GetEmployeeDataComponent from './GetEmployeeDataComponent/GetEmployeeData
 import AddEmployeeDataComponent from './AddEmployeeDataComponent/AddEmployeeDataComponent';
 import GetTotalSalaryComponent from './GetTotalSalaryComponent/GetTotalSalaryComponent';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 const AdminComponent = () => {
+  const navigate = useNavigate();
+  const [isAdmin,setIsAdmin] = useState(false);
+  useEffect(()=>
+  {
+      axios
+      .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`,{withCredentials: true})
+      .then((response)=>{
+        if(response.status==201)
+          {
+              // alert('Authorized user')
+              setIsAdmin(true);
+          }
+      })
+      .catch((error)=>{
+        console.log(error)
+          // alert(`Status : ${error.message}`)
+          // window.location.href='/'
+          navigate('/');       
+      })
+  },[])
   return (
-        <div className="main-content">
-            <div className="admin-panel">
-              <h3 className="admin-title" >Admin Panel</h3>
-              
-              <nav className="admin-nav">
-                <Link to="/admin" >EmployeeDetails</Link>
-                <Link to="/admin/addEmployee" >ADD New Employee</Link>
-                <Link to="/admin/getTotalSalary" >Total Salary</Link>
-              </nav>
-           <Routes >
-                 <Route path='/' element={<GetEmployeeDataComponent/>}></Route>
-                 <Route path='/addEmployee' element={<AddEmployeeDataComponent/>}></Route>
-                 <Route path='/getTotalSalary' element={<GetTotalSalaryComponent/>}></Route>
-          </Routes>
-          </div>
+        <div>
+          {isAdmin && 
+            <div className="main-content">
+              <div className="admin-panel">
+                <h3 className="admin-title" >Admin Panel</h3>
+                
+                <nav className="admin-nav">
+                  <Link to="/admin" >EmployeeDetails</Link>
+                  <Link to="/admin/addEmployee" >ADD New Employee</Link>
+                  <Link to="/admin/getTotalSalary" >Total Salary</Link>
+                </nav>
+            <Routes >
+                  <Route path='/' element={<GetEmployeeDataComponent/>}></Route>
+                  <Route path='/addEmployee' element={<AddEmployeeDataComponent/>}></Route>
+                  <Route path='/getTotalSalary' element={<GetTotalSalaryComponent/>}></Route>
+            </Routes>
+            </div>
+          </div>}
         </div>
   )
 }

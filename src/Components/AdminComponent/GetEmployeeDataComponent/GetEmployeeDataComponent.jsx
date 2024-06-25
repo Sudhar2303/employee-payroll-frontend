@@ -14,10 +14,7 @@ const GetEmployeeDataComponent = () => {
       .catch((error)=>
         {
           console.log(error.message)
-          if (error.response.status === 401) {
-            window.location.href='/'
-            alert('Unauthorized access: Please log in.');
-          }
+            alert(`${error.message}`);
         })
     },[])
     

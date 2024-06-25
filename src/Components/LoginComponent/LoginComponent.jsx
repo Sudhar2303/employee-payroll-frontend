@@ -2,8 +2,10 @@ import axios from 'axios'
 import React,{ useState }  from 'react'
 import './LoginComponent.css'
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const LoginComponent = () => {
+    const navigate = useNavigate();
     const [emailID, setEmailID] = useState('')
     const [password, setPassword] = useState('')
 
@@ -25,32 +27,30 @@ const LoginComponent = () => {
             password:password
           }, {withCredentials: true}
         )
-        .then((response)=>{
+        .then((response)=>
+        {
           if(response.status==201)
             {
                 window.localStorage.setItem('token',response.data.token)
                 alert(`Welcome ${response.data.role}`)
                 if(response.data.role == 'admin')
                 {
-                    window.location.href='/admin'
+                    navigate('/admin')
                 }
                 else if(response.data.role == 'hr')
                 {
-                    window.location.href='/hr'
+                    navigate('/hr')
                 }
                 else
                 {
                     alert("Login in again")
-                    window.location.href='/'
+                    navigate('/')
                 }
-            }
-            else
-            {
-                alert(`status : ${response.status}`)
             }
         })
         .catch((error)=>{
-            alert(`Status : error`)
+            console.log(error)
+            alert(`Status : ${error}`)
         })
     }
   return (
