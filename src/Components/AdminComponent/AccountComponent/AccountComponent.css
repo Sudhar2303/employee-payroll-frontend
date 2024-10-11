@@ -1,0 +1,11 @@
+.account-component
+{
+    margin-left: 20%;
+    margin-right: 2%;
+}
+.account-details
+{
+    display: flex;
+    justify-content: space-between;
+    margin: 3% 0;
+}

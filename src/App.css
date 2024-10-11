@@ -1,55 +1,10 @@
-/* General body styling to reset margin and padding */
+
 body, html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
   height: 100%;
-  background-color: #dbe7f1;
+  background-color: #030b1a;
 }
 
-/* App container styling */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Header styling */
-.header {
-  width: 100%;
-  color: rgb(0, 0, 0);
-  padding: 40px 0 40px 0;
-  text-align: center;
-}
-
-.header h3 {
-  font-size: 35px;
-  font-family: '';
-  margin: 0;
-}
-.pt-serif-regular {
-  font-family: "PT Serif", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.pt-serif-bold {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.pt-serif-regular-italic {
-  font-family: "PT Serif", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.pt-serif-bold-italic {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-/* Main content styling */
 

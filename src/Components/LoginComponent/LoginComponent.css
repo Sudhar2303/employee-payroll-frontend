@@ -1,17 +1,37 @@
 /* Styling the form container */
 .login-form {
-    background: white;
+    background: rgba(3, 3, 3, 0.384);
+    color: white;
     padding: 2rem;
+    border: 1px solid #313131;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
 }
-
-/* Styling for the form elements */
-.login-form .mb-3 {
+.title
+{
+    color: white;
+    font-size: 500%;
+    padding: 5% 0;
+    font-family: "Merriweather", serif;
+    font-weight: 300;
+    font-style: italic;
+}
+.login-header {
+    font-family: "Merriweather", serif;
+    font-weight: 300;
+    font-size: 22px;
+    font-style: normal;
+    display:flex;
+    justify-content: center;
+    margin: 5px;
+  }
+  
+.login-form .login-container {
     margin-bottom: 1.5rem;
+    font-family: "Merriweather", serif;
+    font-weight: 300;
 }
 
 .login-form label {
@@ -22,11 +42,13 @@
 .login-form input {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid #313131;
+    background-color: rgb(0, 0, 0);
+    color: white;
     border-radius: 5px;
     box-sizing: border-box;
+    outline: none;
 }
-
 .login-form button {
     width: 100%;
     padding: 0.75rem;
@@ -36,18 +58,31 @@
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    
 }
-
 .login-form button:hover {
     background-color: #0056b3;
 }
 
 .login-main-content {
-    padding-top: 115px;
+    width: 100%;
+    padding: 12% 18%;
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    
-  }
+}
+
+@media only screen and (max-width: 576px) 
+{
+    .login-main-content
+    {
+        display: block;
+        padding: 13% 10%;
+        width: 100%;
+    }
+    .title
+    {
+        font-size: 400%;
+        font-weight: 500;
+        padding-bottom: 12%;
+    }
+}

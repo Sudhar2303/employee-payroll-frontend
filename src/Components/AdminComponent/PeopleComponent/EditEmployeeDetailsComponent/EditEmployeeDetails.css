@@ -1,0 +1,23 @@
+.edit-details-container
+{
+    width: 80%;
+    display: flex;
+    margin-left: 18%;
+    color: white;
+    flex-wrap: wrap;
+}
+.button-container
+{
+    padding: 2% 0;
+    text-align: center;
+}
+.delete-section
+{
+    width: 100%;
+    font-size: 18px;
+    color: gray;
+    padding:  4% 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
