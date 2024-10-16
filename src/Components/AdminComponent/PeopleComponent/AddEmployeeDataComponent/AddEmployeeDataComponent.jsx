@@ -1,19 +1,21 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import './AddEmployeeDataComponent.css'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import './AddEmployeeDataComponent.css';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
-const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
+const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
   const [employeeData, setEmployeeData] = useState({
     employeeID: '',
     employeeName: '',
     role: '',
     grade: '',
-    basicPay: ''
+    basicPay: '',
+    gender: '',
+    emailID: ''  // Added emailID field
   });
   const [errors, setErrors] = useState({});
 
@@ -50,6 +52,18 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
       delete newErrors.basicPay;
     }
 
+    if (fieldName === 'gender' && !value) {
+      newErrors.gender = 'Please enter the Gender';
+    } else if (fieldName === 'gender') {
+      delete newErrors.gender;
+    }
+
+    if (fieldName === 'emailID' && !value) {
+      newErrors.emailID = 'Please enter the Email ID';
+    } else if (fieldName === 'emailID') {
+      delete newErrors.emailID;
+    }
+
     setErrors(newErrors);
   };
 
@@ -58,28 +72,66 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
   };
 
   const handleChange = (event) => {
-    console.log([event.target.name])
     setEmployeeData({
       ...employeeData,
       [event.target.name]: event.target.value,
     });
   };
-  const handleBackClick = () =>
-  {
+
+  const handleBackClick = () => {
     setShowAddEmployeeForm(false);
-  }
+  };
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
     const validationErrors = {};
 
-    console.log(employeeData)
     if (Object.keys(validationErrors).length === 0) {
-      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addEmployee`, employeeData, { withCredentials: true })
+      const formattedData = {
+        employeeID: {
+          employeeID: employeeData.employeeID,
+          employeeName: employeeData.employeeName,
+          role: employeeData.role,
+          emailID: employeeData.emailID
+        },
+        gradeNo: {
+          gradeNo: parseInt(employeeData.grade)
+        },
+        basicPay: parseFloat(employeeData.basicPay),
+        salary: 0,  
+        totalWorkingHours: 0  
+      };
+      if(isAdmin)
+      {
+          axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addEmployee`, formattedData, { withCredentials: true })
+          .then((response) => {
+            setShowAddEmployeeForm(false);
+            toast.success(`New Employee Added Successfully`, {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          })
+          .catch((error) => {
+            if (error.response.status === 401) {
+              alert('Unauthorized access: Please log in.');
+              window.location.href = '/';
+            }
+            if (error.response) {
+              alert(`Status ${error.response.status} - ${error.response.message}`);
+            }
+            console.log(error);
+          });
+      }
+      else
+      {
+        console.log(formattedData)
+        axios.post(`https://employee-payroll-backend.vercel.app/api/v1/hr/addEmployee`, formattedData, { withCredentials: true })
         .then((response) => {
-          alert(`${employeeData.employeeName} is added successfully`);
-          window.location.href = '/admin';
-          console.log(response);
+          setShowAddEmployeeForm(false);
+          toast.success(`New Employee Added Successfully`, {
+            position: "bottom-right",
+            autoClose: 3000,
+          });
         })
         .catch((error) => {
           if (error.response.status === 401) {
@@ -91,42 +143,22 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
           }
           console.log(error);
         });
+      }
+      
     } else {
       setErrors(validationErrors); // Ensure the errors state is updated if there are errors.
     }
   };
-
-  useEffect(() => {
-    axios
-      .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`, { withCredentials: true })
-      .then((response) => {
-        if (response.status === 201) {
-          setIsAdmin(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        navigate('/');
-        toast.error('Authentication failed', {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      });
-  }, []);
-
-  const { employeeID, employeeName, role, grade, basicPay } = employeeData;
+  
+  const { employeeID, employeeName, role, grade, basicPay, gender, emailID } = employeeData;
 
   return (
     <React.Fragment>
-      {isAdmin && (
         <div className='AddEmployee-component'>
           <div className='back-arrow' onClick={handleBackClick}>
-            <AiOutlineArrowLeft/>
+            <AiOutlineArrowLeft />
           </div>
           <form className='form-container' onSubmit={formSubmitHandler}>
-            <div className='form-header'>
-                <h2>Add New Employee</h2>
-            </div>
             <div className='form-group'>
               <div className='form-title'>
                 <p>Employee ID</p>
@@ -145,8 +177,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              
-
             </div>
 
             <div className='form-group'>
@@ -165,7 +195,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              
             </div>
 
             <div className='form-group'>
@@ -174,22 +203,59 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
               </div>
               {errors.role && <div className='form-error-message'>
                 <p>{errors.role}</p>
-                </div>}
+              </div>}
               <select
-                  className='form-field'
-                  name='role'
-                  value={role}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  <option value=''>Select Role</option>
-                  <option value='hr'>HR</option>
-                  <option value='designer'>Designer</option>
-                  <option value='developer'>Developer</option>
-                  <option value='employee'>Tester</option>
+                className='form-field'
+                name='role'
+                value={role}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
+                <option value=''>Select Role</option>
+                <option value='hr'>HR</option>
+                <option value='Designer'>Designer</option>
+                <option value='Developer'>Developer</option>
+                <option value='Manager'>Manager</option>
+                <option value='Tester'>Tester</option>
+              </select>
+            </div>
+            
+            <div className='form-group'>
+              <div className='form-title'>
+                <p>Email ID</p>  {/* Added Email ID field */}
+              </div>
+              {errors.emailID && <div className='form-error-message'>
+                <p>{errors.emailID}</p>
+              </div>}
+              <input
+                className='form-field'
+                type='email'
+                placeholder='Enter Email ID'
+                name='emailID'
+                value={emailID}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
 
-                </select>
-              
+            <div className='form-group'>
+              <div className='form-title'>
+                <p>Gender</p>
+              </div>
+              {errors.gender && <div className='form-error-message'>
+                <p>{errors.gender}</p>
+              </div>}
+              <select
+                className='form-field'
+                name='gender'
+                value={gender}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
+                <option value=''>Select Gender</option>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
+              </select>
             </div>
 
             <div className='form-group'>
@@ -198,7 +264,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
               </div>
               {errors.grade && <div className='form-error-message'>
                 <p>{errors.grade}</p>
-                </div>}
+              </div>}
               <select
                 className='form-field'
                 name='grade'
@@ -213,7 +279,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
                 <option value='4'>4</option>
                 <option value='5'>5</option>
               </select>
-              
             </div>
 
             <div className='form-group'>
@@ -222,27 +287,28 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm}) => {
               </div>
               {errors.basicPay && <div className='form-error-message'>
                 <p>{errors.basicPay}</p>
-                </div>}
+              </div>}
               <input
                 className='form-field'
                 type='number'
-                placeholder='Enter the basic pay'
+                placeholder='Enter the Basic Pay'
                 name='basicPay'
                 value={basicPay}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              
             </div>
 
             <div className='form-button'>
-              <button className='submit-button' type='submit'>Add Employee</button>
+              <button type='submit' className='submit-button'>
+                Submit
+              </button>
             </div>
           </form>
+          <ToastContainer />
         </div>
-      )}
     </React.Fragment>
   );
-}
+};
 
 export default AddEmployeeDataComponent;

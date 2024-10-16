@@ -12,7 +12,7 @@
     margin: 1.8% 0;
     width: 43%;
     height: fit-content;
-    border: 1px solid rgb(59, 59, 59);
+    border: 1px solid #3131317c;
     padding: 1%;
     background-color: rgba(3, 3, 3, 0.384);
     border-radius: 10px;
@@ -29,43 +29,43 @@
 }
 .employee-data-grid
 {
+  position: relative;
   width: 100%;
   height: fit-content;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   background-color: rgba(3, 3, 3, 0.384);
-  border: 1px solid rgb(59, 59, 59);
+  border: 1px solid #3131317c;
   border-radius: 10px;
+  border-bottom: none;
 }
-.employee-data-grid:hover
-{
-  transform: scale(1.01); 
-}
+
 .header, .row {
   display: contents; 
 }
 
 .header-item, .row-item {
-  border-bottom: 1px solid rgb(59, 59, 59);
+  border-bottom: 1px solid #3131317c;
   padding: 1% 0;
+  font-size: 85%;
 }
 
 .header-item {
-  color: rgb(26, 96, 228);
+  color: #2196F3;
   padding-left: 2%;
-  width: 19.5%;
+  width: 13.9%;
 }
 
 .row-item {
   padding-left: 2%;
-  width: 19.5%;
+  width: 13.9%;
   color: white;
 }
 
 .kebab-menu-container {
-  color: white;
   position: relative;
+  color: white;
   display: inline-block;
   cursor: pointer;
   padding: 1% 0;
@@ -75,7 +75,7 @@
   position: absolute;
   right: 0;
   background-color: rgb(3, 3, 3);
-  border: 1px solid rgb(59, 59, 59);
+  border: 1px solid #3131317c;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   z-index: 100;
@@ -97,7 +97,7 @@
 .card-container {
     width: 240px;
     background-color: rgba(3, 3, 3, 0.384);
-    border: 1px solid rgb(59, 59, 59);
+    border: 1px solid #3131317c;
     color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -111,23 +111,25 @@
     transform: scale(1.05); 
 }
 
-
 .card-header {
     font-size: 20px;
-    margin-bottom: 12px;
     padding-bottom: 8px;
+    font-weight: 400;
 }
 
-
 .card-value {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: bold;
     color: #2196F3; 
-    margin-top: 8px;
+    margin-bottom: 12px;
 }
 
 .rupee-icon {
     font-size: 20px;
     margin-right: 4px;
     color: #2196F3;
+}
+.icon
+{
+  stroke-width: 0.8px;
 }

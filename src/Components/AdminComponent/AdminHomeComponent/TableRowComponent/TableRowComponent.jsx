@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../AdminHomeComponent.css'
 import { useNavigate } from 'react-router-dom';
-import {RiMore2Line  } from 'react-icons/ri';
+import { EllipsisVertical } from 'lucide-react';
 
 const TableRowComponent = ({EmployeeData,actionType,onAction}) => 
 {
@@ -32,13 +32,15 @@ const TableRowComponent = ({EmployeeData,actionType,onAction}) =>
     <React.Fragment>
           {EmployeeData && EmployeeData.map((iterator) => (
             <div className="row" key={iterator._id}>
-              <div className="row-item">{iterator.employeeID}</div>
-              <div className="row-item">{iterator.employeeName}</div>
-              <div className="row-item">{iterator.role}</div>
+              <div className="row-item">{iterator.employeeID.employeeID}</div>
+              <div className="row-item">{iterator.employeeID.employeeName}</div>
+              <div className="row-item">{iterator.employeeID.role}</div>
               <div className="row-item">{iterator.basicPay}</div>
-              <div className="row-item">{iterator.grade}</div>
+              <div className="row-item">{iterator.gradeNo.gradeNo}</div>
+              <div className="row-item">{iterator.totalWorkingHours}</div>
+              <div className="row-item">{iterator.salary.toFixed(2)}</div>
               <div className='kebab-menu-container' onClick={() => kebabMenuHandler(iterator)}>
-                <RiMore2Line/>
+              <EllipsisVertical className='icon' />
                 {kebabMenuVisible === iterator._id && (
                   <div className="menu-items"  ref={kebabMenuRef}>
                     {actionType === 'edit' && (

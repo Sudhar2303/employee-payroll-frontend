@@ -13,14 +13,17 @@ ChartJS.register(
 );
 
 const BarChartComponent = ({data,charTitle}) => {
+
+  const labels = data.map(item => item._id);  
+  const counts = data.map(item => item.count); 
   
   const chartData = {
-    labels: Object.keys(data),
+    labels: labels,
     datasets: [
       {
         label: 'Number of Employees',
-        data: Object.values(data),
-        backgroundColor: 'rgb(26, 96, 228)',   
+        data: counts,
+        backgroundColor: '#2196F3',   
       },
     ],
   };
@@ -62,9 +65,10 @@ const BarChartComponent = ({data,charTitle}) => {
       title: {
         display: true,
         text: charTitle,
-        color: 'rgb(202, 198, 198)', 
+        color: 'white', 
         font: {
-          size: 18,      
+          size: 18,  
+          weight: 'normal'    
         },
       },
     },

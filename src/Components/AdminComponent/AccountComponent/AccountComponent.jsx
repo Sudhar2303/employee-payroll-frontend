@@ -7,7 +7,6 @@ import CardContainerComponent from '../AdminHomeComponent/CardContainerComponent
 
 const AccountComponent = () => {
   const navigate = useNavigate();
-  const [totalSalary,setTotalSalary] = useState([]);
   const paymentData = [
     {
       _id: 1,                          // Unique ID for each object
@@ -38,7 +37,7 @@ const AccountComponent = () => {
   const [EmployeeData,setEmployeeData] = useState([])
   const handlePayment = () =>
   {
-
+    
   }
   useEffect(() => {
       
@@ -69,6 +68,8 @@ const AccountComponent = () => {
               <div className="header-item">Role</div>
               <div className="header-item">Basic Pay</div>
               <div className="header-item">Grade</div>
+              <div className="header-item">salary</div>
+              <div className="header-item">TotalWorkingHours</div>
           </div>
           <TableRowComponent EmployeeData={EmployeeData} actionType="payment" onAction={handlePayment}/>
         </div>

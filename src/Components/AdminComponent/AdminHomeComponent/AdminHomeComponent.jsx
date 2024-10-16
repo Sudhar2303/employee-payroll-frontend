@@ -2,21 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import DepartmentEmployeeBarChart from './BarChartComponent/BarChartComponent'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import {RiMore2Line  } from 'react-icons/ri';
 import TableRowComponent from './TableRowComponent/TableRowComponent';
 import CardContainerComponent from './CardContainerComponent/CardContainerComponent';
 const AdminHomeComponent = () => 
 {
-    const departmentCounts = 
-    {    
-        "Developer": 100,
-        "HR": 500,
-        "Manager": 300,
-        "Accountant": 700
-    };
+    const [departmentCounts,setDepartmentCounts] = useState([])
+    const [employeeData,setEmployeeData] = useState([])
     const paymentData = [
         {
-            _id: 1,                          // Unique ID for each object
+            _id: 1,                         
             heading: "Total Balance",
             value: 9876,
             isCurrency: true
@@ -41,22 +35,43 @@ const AdminHomeComponent = () =>
           }
       ];
     const navigate = useNavigate();
-    const [EmployeeData,setEmployeeData] = useState([])
 
     useEffect(() => {
-        
-        axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
-        .then((response) => {
-            setEmployeeData(response.data);
-        })
-        .catch((error) => {
-            console.log(error.message);
-            navigate('/');
-            toast.error('Authentication failed: Login again', {
-            position: "bottom-right",
-            autoClose: 3000,
+    
+        const getCount = () =>
+        {
+            axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getDepartmentViceCount', { withCredentials: true })
+            .then((response) => {
+                setDepartmentCounts(response.data)
+            })
+            .catch((error) => {
+                console.log(error.message);
+                navigate('/');
+                toast.error('Authentication failed: Login again', {
+                position: "bottom-right",
+                autoClose: 3000,
+                });
             });
-        });
+        }
+        getCount();
+
+        const getData = () =>
+        {
+            axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
+            .then((response) => {
+                console.log(response.data)
+                setEmployeeData(response.data)
+            })
+            .catch((error) => {
+                console.log(error.message);
+                navigate('/');
+                toast.error('Authentication failed: Login again', {
+                position: "bottom-right",
+                autoClose: 3000,
+                });
+            });
+        }
+        getData();
       }, []);
 
     return (
@@ -75,8 +90,11 @@ const AdminHomeComponent = () =>
                         <div className="header-item">Role</div>
                         <div className="header-item">Basic Pay</div>
                         <div className="header-item">Grade</div>
+                        <div className="header-item">TotalWorkingHours</div>
+                        <div className="header-item">salary</div>
+                        
                     </div>
-                    <TableRowComponent EmployeeData={EmployeeData}/>
+                    <TableRowComponent EmployeeData={employeeData}/>
                 </div>
             </div>
         </React.Fragment>

@@ -6,8 +6,8 @@ const CardContainerComponent = ({data}) =>
     <React.Fragment>
         {data && data.map((iterator)=>(
             <div className='card-container' key = {iterator._id}>
-                <div className='card-header'>{iterator.heading}</div>
                 <div className='card-value'> {iterator.isCurrency ? '₹' : ''} {iterator.value}</div>
+                <div className='card-header'>{iterator.heading}</div>
             </div>
         ))}
     </React.Fragment>

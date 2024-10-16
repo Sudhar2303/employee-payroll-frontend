@@ -4,13 +4,13 @@ import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { FaUserPlus, FaListUl } from "react-icons/fa";
-import { RiMore2Line } from 'react-icons/ri';
-import { MdOutlineAccountBalance } from "react-icons/md";
 import tempImage from '../../assets/image.png';
+import { House,Users,CreditCard,EllipsisVertical,Star,ClockAlert } from 'lucide-react';
 import AdminHomeComponent from './AdminHomeComponent/AdminHomeComponent';
 import PeopleComponent from './PeopleComponent/PeopleComponent';
 import AccountComponent from './AccountComponent/AccountComponent';
+import GradeComponent from './GradeComponent/GradeComponent';
+import PendingRequestComponent from './PendingRequestComponent/PendingRequestComponent';
 
 const AdminComponent = () => {
   const navigate = useNavigate();
@@ -29,9 +29,28 @@ const AdminComponent = () => {
       setShowDropdown(false);
     }
   };
+  const handleSignout = () =>
+  {
+      axios.get(`https://employee-payroll-backend.vercel.app/api/v1/logout`, { withCredentials: true })
+      .then((response)=>
+      {
+        console.log(response)
+        toast.success(`Sign-out`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+      .catch((error)=>
+      {
+        toast.error(error.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+  }
 
   useEffect(() => {
-    const getData = () => {
+    const getAuthenticate = () => {
       axios
         .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`, { withCredentials: true })
         .then((response) => {
@@ -52,8 +71,8 @@ const AdminComponent = () => {
           });
         });
     };
-    
-    getData();
+
+    getAuthenticate();
 
     const updateTime = () => {
       const now = new Date();
@@ -94,30 +113,40 @@ const AdminComponent = () => {
             </div>
             <div className='navbar'>
               <Link to="/admin" className='navbar-list-name'>
-                <FaListUl />
+                <House className='icon'/>
                 Home
               </Link>
               <Link to="/admin/people" className='navbar-list-name'>
-                <FaUserPlus />
+                <Users className='icon'/>
                 People
               </Link>
+              <Link to="/admin/grade" className='navbar-list-name'>
+                <Star className='icon'/>
+                  Grade
+              </Link>
+              <Link to="/admin/request" className='navbar-list-name'>
+                <ClockAlert  className='icon'/>
+                  Request
+              </Link>
               <Link to="/admin/accounts" className='navbar-list-name'>
-                <MdOutlineAccountBalance />
+              <CreditCard className='icon'/>
                 Account
               </Link>
             </div>
             <div className='user-profile-container'>
-              <img src={tempImage} className='user-image' alt="user" />
-              <div className='user-name'>
-                <p>UserName</p>
-                <p>email-id</p>
+              <div className='user-profile'>
+                <img src={tempImage} className='user-image' alt="user" />
+                <div className='user-name'>
+                  <p>UserName</p>
+                  <p style={{opacity : 0.6}}>email-id</p>
+                </div>
               </div>
               <div onClick={handleIconClick} className="dropdown-icon">
-                <RiMore2Line />
+                <EllipsisVertical className='icon'/>
               </div>
               {showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
-                  <button className="sign-out-button" onClick={() => alert('Signed out!')}>
+                  <button className="sign-out-button" onClick={handleSignout}>
                     Sign Out
                   </button>
                 </div>
@@ -125,13 +154,15 @@ const AdminComponent = () => {
             </div>
           </div>
           <div className='welcome-tag'>
-            <p>Welcome, Admin</p>
-            {currentTime}
+            <h5>Welcome, Admin</h5>
+            <p>{currentTime}</p>
           </div>
           <Routes>
             <Route path='/' element={<AdminHomeComponent />} />
-            <Route path='/people' element={<PeopleComponent />} />
+            <Route path='/people' element={<PeopleComponent isAdmin = {isAdmin} />} />
             <Route path='/accounts' element={<AccountComponent />} />
+            <Route path='/grade' element={<GradeComponent isAdmin={isAdmin}/>} />
+            <Route path='/request' element={<PendingRequestComponent/>} />
           </Routes>
         </div>
       )}

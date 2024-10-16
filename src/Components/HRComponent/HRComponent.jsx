@@ -8,11 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import PeopleComponent from '../AdminComponent/PeopleComponent/PeopleComponent';
 import '../AdminComponent/PeopleComponent/AddEmployeeDataComponent/AddEmployeeDataComponent.css'
 import HRHomeComponent from './HRHomeComponent/HRHomeComponent';
-import { FaUserPlus, FaListUl } from "react-icons/fa";
-import { RiMore2Line } from 'react-icons/ri';
-import { MdOutlineAccountBalance } from "react-icons/md";
+import { House,Users,CreditCard,EllipsisVertical,Star} from 'lucide-react';
 import tempImage from '../../assets/image.png';
-import LeaveManagementComponent from './LeaveManagementComponent/LeaveManagementComponent';
+import GradeComponent from '../AdminComponent/GradeComponent/GradeComponent';
 
 const HRComponent = () => {
   const navigate = useNavigate();
@@ -96,30 +94,32 @@ const HRComponent = () => {
               </div>
               <div className='navbar'>
                 <Link to="/hr" className='navbar-list-name'>
-                  <FaListUl />
+                  <House/>
                   Home
                 </Link>
                 <Link to="/hr/people" className='navbar-list-name'>
-                  <FaUserPlus />
+                  <Users/>
                   People
                 </Link>
-                <Link to="/hr/accounts" className='navbar-list-name'>
-                  <MdOutlineAccountBalance />
-                  Account
+                <Link to="/hr/grade" className='navbar-list-name'>
+                  <Star className='icon'/>
+                    Grade
                 </Link>
-                <Link to="/hr/leavemanagement" className='navbar-list-name'>
-                  <MdOutlineAccountBalance />
-                  Leave Management
+                <Link to="/hr/accounts" className='navbar-list-name'>
+                  <CreditCard/>
+                  Account
                 </Link>
               </div>
               <div className='user-profile-container'>
-                <img src={tempImage} className='user-image' alt="user" />
-                <div className='user-name'>
-                  <p>UserName</p>
-                  <p>email-id</p>
+                <div className='user-profile'>
+                  <img src={tempImage} className='user-image' alt="user" />
+                  <div className='user-name'>
+                    <p>UserName</p>
+                    <p style={{opacity:0.6}}>email-id</p>
+                  </div>
                 </div>
                 <div onClick={handleIconClick} className="dropdown-icon">
-                  <RiMore2Line />
+                  <EllipsisVertical/>
                 </div>
                 {showDropdown && (
                   <div className="dropdown-menu" ref={dropdownRef}>
@@ -131,19 +131,19 @@ const HRComponent = () => {
               </div>
             </div>
             <div className='welcome-tag'>
-              <p>Welcome, HR</p>
-              {currentTime}
+              <h5>Welcome, HR</h5>
+              <p>{currentTime}</p>
             </div>
             <Routes>
               <Route path='/' element={<HRHomeComponent/>} />
               <Route path='/people' element={<PeopleComponent />} />
+              <Route path='/grade' element={<GradeComponent />} />
               <Route path='/accounts' element={<AccountComponent />} />
-              <Route path='/leavemanagement' element={LeaveManagementComponent}/>
             </Routes>
         </div>
       }
       <ToastContainer />
-      </React.Fragment>
+    </React.Fragment>
   )
 }
 

@@ -4,42 +4,45 @@
 }
 .sidebar
 {
-  background-color: rgba(3, 3, 3, 0.384);
-  color: rgb(202, 198, 198);
-  width:18%;
-  height: 100vh;
+  background-color: #03030362;
+  color: #FFFFFF;
+  margin: 1% 1%;
+  width:17%;
+  height: 96vh;
   font-size: 14px;
   position: fixed;
+  border: 1px solid #3131317c;
+  border-radius: 10px;  
 }
 .company-name-logo
 {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  border: 1px solid rgb(59, 59, 59);
+  justify-content: space-evenly;
+  border-bottom: 1px solid #3131317c;
   padding: 10%;
   height: 10%;
 }
 .app-logo
 {
     border-radius: 50%;
-    height: 40px;
+    height: 35px;
     width: auto;
 }
 .app-name
 {
   font-weight: 600;
-  font-style: italic;
   font-size: 16px;
+  padding-left: 6px;
 }
 .navbar 
 {
-  border: 1px solid rgb(59, 59, 59);
+  border-top: none;
   display: flex;                    
   flex-direction: column;           
   padding: 8%;
   height: 80%;                             
-  width: 100%;                  
+  width: 100%;                
 }
 
 .navbar-list-name {
@@ -53,9 +56,10 @@
 }
 
 .navbar-list-name:hover {
-  background-color: #e2e6ea;       
+  background-color: #FFFFFF;      
   color: #000;                     
 }
+
 
 .navbar-list-name svg {
   margin-right: 10px;              
@@ -67,7 +71,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid rgb(59, 59, 59);
+  border-top: 1px solid #3131317c;
   padding: 10%;
   height: 10%;
 }
@@ -75,24 +79,35 @@
 {
   height: 35px;
   border-radius: 50%;
+  margin-right: 12px;
+}
+.user-profile
+{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .welcome-tag
 {
   padding-top: 2%;
   margin-left: 20%;
-  color: #2196F3;
+}
+.welcome-tag h5
+{
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
 }
 .welcome-tag p
 {
-  font-size: 30px;
-  color: white;
+  font-size: 16px;
+  color: #2196F3;
 }
 .dropdown-menu {
   position: absolute;
   bottom: 45px;
   right: 5px;
-  background-color: rgb(3, 3, 3);
-  border: 1px solid rgb(59, 59, 59);
+  border: 1px solid #3131317c;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   z-index: 100;
@@ -100,13 +115,9 @@
 
 .sign-out-button 
 {
-  background-color: rgb(3, 3, 3);
+  background-color: #03030362;
   color: white;
   border: none;
   padding: 8px 12px;
   cursor: pointer;
-}
-.hr-table
-{
-  width: 75%;
 }

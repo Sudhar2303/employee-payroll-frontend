@@ -18,7 +18,7 @@
 }
 .pie-chart
 {
-    width: 24%;
+    width: 30%;
     height: fit-content;
     font-size: 16px;
     font-weight: 300;
@@ -32,11 +32,21 @@
 }
 .comparison-chart
 {
-    width: 39%;
+    width: 38%;
     height: fit-content;
     background-color: rgba(3, 3, 3, 0.384);
-    border: 1px solid rgb(59, 59, 59);
+    border: 1px solid #3131317c;
     text-align: center;
     padding: 1%;
     border-radius: 10px;
+}
+.comparison-chart p
+{
+    font-size: 18px;
+    padding-top: 5px;
+}
+.hr-table
+{
+    margin-top: 3%;
+    width: 100%;
 }

@@ -1,0 +1,60 @@
+.pending-requests-container {
+    width: 78%;
+    margin-left: 20%;
+    margin-right: 2%;
+    color: white;
+  }
+  
+  h2 
+  {
+    text-align: center;
+    color: white;
+    margin-top: 3%;
+  }
+  
+  .request-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .request-details {
+    flex: 1;
+    color: #333;
+  }
+  
+  .request-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .approve-button, .decline-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .approve-button {
+    background-color: #4CAF50;
+  }
+  
+  .approve-button:hover {
+    background-color: #45a049;
+  }
+  
+  .decline-button {
+    background-color: #f44336;
+  }
+  
+  .decline-button:hover {
+    background-color: #e53935;
+  }
