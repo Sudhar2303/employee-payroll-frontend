@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React,{ useState }  from 'react'
 import './LoginComponent.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
 
@@ -100,7 +100,6 @@ const LoginComponent = () => {
                 <button onClick={handleRegistration}>Login</button>
             </form>
         </div>
-        <ToastContainer />
     </React.Fragment>
   )
 }

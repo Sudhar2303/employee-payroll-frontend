@@ -3,8 +3,7 @@ import './EditEmployeeDetails.css';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import {toast } from 'react-toastify';
 
 const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmin }) => {
   const navigate = useNavigate();
@@ -44,6 +43,7 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
   const handleBackClick = () => {
     setShowUpdateComponent(false);
   };
+  const role = (isAdmin) ? 'admin' : 'hr'
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
@@ -69,41 +69,35 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
         totalWorkingHours : employee.totalWorkingHours,
         salary: employee.salary
       };
-      if(isAdmin)
-      {
-        console.log(updatedData)
-          axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/updateEmployeeData`, updatedData, { withCredentials: true })
-          .then((response) => {
-            setShowUpdateComponent(false);
-            toast.success(`Employee details updated successfully`, {
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/${role}/updateEmployeeData`, updatedData, { withCredentials: true })
+      .then((response) => {
+        console.log(response)
+        setShowUpdateComponent(false);
+        toast.success(`Employee details updated successfully`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        if(error.response.status == 401)
+          {
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+            toast.error('Authentication failed: Login again', {
               position: "bottom-right",
               autoClose: 3000,
             });
-          })
-          .catch((error) => {
-            toast.error(error.message, {
+          }
+          else
+          {
+            toast.error(error.response.data.message,
+            {
               position: "bottom-right",
               autoClose: 3000,
             });
-          });
-      }
-      else
-      {
-        axios.post(`https://employee-payroll-backend.vercel.app/api/v1/hr/updateEmployeeData`, updatedData, { withCredentials: true })
-          .then((response) => {
-            setShowUpdateComponent(false);
-            toast.success(`Employee details updated successfully`, {
-              position: "bottom-right",
-              autoClose: 3000,
-            });
-          })
-          .catch((error) => {
-            toast.error(error.message, {
-              position: "bottom-right",
-              autoClose: 3000,
-            });
-          });
-      }
+          }
+      });
     } 
     else {
       setErrors(validationErrors); 
@@ -111,7 +105,6 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
   };
 
   const deleteEmployee = () => {
-    console.log(employee._id, employee.employeeID._id)
     axios.delete(`https://employee-payroll-backend.vercel.app/api/v1/admin/deleteEmployeeData`, {
       data: {_id : employee._id,employeeID : employee.employeeID._id},
       withCredentials: true,
@@ -124,10 +117,24 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
         });
       })
       .catch((error) => {
-        toast.error(error.message, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
+        if(error.response.status == 401)
+          {
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+            toast.error('Authentication failed: Login again', {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
+          else
+          {
+            toast.error(error.response.data.message,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
       });
   };
 

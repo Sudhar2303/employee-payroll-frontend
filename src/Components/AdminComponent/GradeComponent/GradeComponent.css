@@ -97,7 +97,10 @@
     color: black;
   }
   
-  /* Close modal button */
+ .toggle-heading
+ {
+    color: black;
+ }
   .close-modal-button {
     position: absolute;
     top: 10px;

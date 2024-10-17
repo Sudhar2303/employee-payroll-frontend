@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import DepartmentEmployeeBarChart from './BarChartComponent/BarChartComponent'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import {toast } from 'react-toastify';
 import TableRowComponent from './TableRowComponent/TableRowComponent';
 import CardContainerComponent from './CardContainerComponent/CardContainerComponent';
 const AdminHomeComponent = () => 
@@ -45,12 +46,24 @@ const AdminHomeComponent = () =>
                 setDepartmentCounts(response.data)
             })
             .catch((error) => {
-                console.log(error.message);
-                navigate('/');
-                toast.error('Authentication failed: Login again', {
-                position: "bottom-right",
-                autoClose: 3000,
-                });
+                if(error.response.status == 401)
+                {
+                    setTimeout(() => {
+                        navigate('/');
+                      }, 2000);
+                    toast.error('Authentication failed: Login again', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
+                else
+                {
+                    toast.error(error.response.data.message,
+                    {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
             });
         }
         getCount();
@@ -59,16 +72,25 @@ const AdminHomeComponent = () =>
         {
             axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
             .then((response) => {
-                console.log(response.data)
                 setEmployeeData(response.data)
             })
             .catch((error) => {
-                console.log(error.message);
-                navigate('/');
-                toast.error('Authentication failed: Login again', {
-                position: "bottom-right",
-                autoClose: 3000,
-                });
+                if(error.response.status == 401)
+                {
+                    navigate('/');
+                    toast.error('Authentication failed: Login again', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
+                else
+                {
+                    toast.error(error.response.data.message,
+                    {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
             });
         }
         getData();

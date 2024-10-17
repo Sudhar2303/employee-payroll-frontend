@@ -4,6 +4,7 @@ import axios from 'axios'
 import TableRowComponent from '../AdminHomeComponent/TableRowComponent/TableRowComponent';
 import CardContainerComponent from '../AdminHomeComponent/CardContainerComponent/CardContainerComponent';
 import './PeopleComponent.css'
+import {toast } from 'react-toastify';
 import AddEmployeeDataComponent from './AddEmployeeDataComponent/AddEmployeeDataComponent';
 import EditEmployeeDetailsComponent from './EditEmployeeDetailsComponent/EditEmployeeDetailsComponent';
 
@@ -25,25 +26,39 @@ const PeopleComponent = ({isAdmin}) =>
       setShowUpdateComponent(true);
       setSelectedEmployeeData(employeeID);
     }
+    const role = (isAdmin) ? 'admin' : 'hr'
     useEffect(() => {
        const getData = () =>{  
-        axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
+        axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/getEmployee`, { withCredentials: true })
         .then((response) => {
             setEmployeeData(response.data);
         })
         .catch((error) => {
-            navigate('/');
-            toast.error('Authentication failed: Login again', {
-            position: "bottom-right",
-            autoClose: 3000,
-            });
+          if(error.response.status == 401)
+            {
+              setTimeout(() => {
+                navigate('/');
+              }, 2000);
+              toast.error('Authentication failed: Login again', {
+                position: "bottom-right",
+                autoClose: 3000,
+              });
+            }
+            else
+            {
+              toast.error(error.response.data.message,
+              {
+                position: "bottom-right",
+                autoClose: 3000,
+              });
+            }
         });
       }
       getData();
 
       const getEmployeeCount = () =>
       {
-        axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/employeeCount', { withCredentials: true })
+        axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/employeeCount`, { withCredentials: true })
         .then((response) => 
         {
           const formatted = [

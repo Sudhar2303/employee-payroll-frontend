@@ -3,8 +3,7 @@ import { Link, Route, Router, Routes } from 'react-router-dom';
 import AccountComponent from '../AdminComponent/AccountComponent/AccountComponent';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 import PeopleComponent from '../AdminComponent/PeopleComponent/PeopleComponent';
 import '../AdminComponent/PeopleComponent/AddEmployeeDataComponent/AddEmployeeDataComponent.css'
 import HRHomeComponent from './HRHomeComponent/HRHomeComponent';
@@ -28,11 +27,32 @@ const HRComponent = () => {
       setShowDropdown(false);
     }
   };
+  const handleSignout = () =>
+  {
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/logout`,null, { withCredentials: true })
+      .then((response)=>
+      {
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+        toast.success(`SuccessFully Sign-out`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+      .catch((error)=>
+      {
+        toast.error(error.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+  }
   useEffect(()=>
   {
     const getData = () => {
         axios
-          .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`,{withCredentials: true})
+          .get(`https://employee-payroll-backend.vercel.app/api/v1/hr/authenticate`,{withCredentials: true})
           .then((response)=>{
             if(response.status==201)
               {
@@ -46,13 +66,26 @@ const HRComponent = () => {
           })
           .catch((error)=>
             {
-              navigate('/');
+              console.log(error)
               setIsHR(false) 
-              navigate('/');
-              toast.error('Authentication failed : Login again', {
-                  position: "bottom-right",
-                  autoClose: 3000,
-              });      
+              if(error.response.status == 401)
+                {
+                  setTimeout(() => {
+                    navigate('/');
+                  }, 2000);
+                  toast.error('Authentication failed: Login again', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                  });
+                }
+                else
+                {
+                  toast.error(error.response.data.message,
+                  {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                  });
+                }     
           })
         }
         getData();
@@ -123,7 +156,7 @@ const HRComponent = () => {
                 </div>
                 {showDropdown && (
                   <div className="dropdown-menu" ref={dropdownRef}>
-                    <button className="sign-out-button" onClick={() => alert('Signed out!')}>
+                    <button className="sign-out-button" onClick={handleSignout}>
                       Sign Out
                     </button>
                   </div>
@@ -142,7 +175,6 @@ const HRComponent = () => {
             </Routes>
         </div>
       }
-      <ToastContainer />
     </React.Fragment>
   )
 }

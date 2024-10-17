@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './GradeComponent.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast } from 'react-toastify';
 import { EllipsisVertical } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 const GradeComponent = ({isAdmin}) => {
+  const navigate = useNavigate();
   const [grades, setGrades] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false); 
@@ -14,7 +16,7 @@ const GradeComponent = ({isAdmin}) => {
   const kebabMenuRef = useRef(null); 
   
   const kebabMenuHandler = (id) => {
-    setKebabMenuVisible((prev) => (prev === id ? null : id)); // Toggle visibility
+    setKebabMenuVisible((prev) => (prev === id ? null : id)); 
   };
 
 
@@ -55,11 +57,11 @@ const GradeComponent = ({isAdmin}) => {
     }));
   };
 
-
+  const role = (isAdmin) ? 'admin' : 'hr'
   const handleSaveGrade = () => {
     if (isEditing) 
     {
-      axios.post(API, currentGrade, { withCredentials: true })
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/updateGrade`, currentGrade, { withCredentials: true })
         .then(() => {
           toast.success('Grade updated successfully', {
             position: 'bottom-right',
@@ -69,15 +71,28 @@ const GradeComponent = ({isAdmin}) => {
           fetchGrades(); 
         })
         .catch((error) => {
-            console.log(error)
-          toast.error(error.message, {
-            position: 'bottom-right',
-            autoClose: 3000,
-          });
+          if(error.response.status == 401)
+            {
+              setTimeout(() => {
+                navigate('/');
+              }, 2000);
+              toast.error('Authentication failed: Login again', {
+                position: "bottom-right",
+                autoClose: 3000,
+              });
+            }
+            else
+            {
+              toast.error(error.response.data.message,
+              {
+                position: "bottom-right",
+                autoClose: 3000,
+              });
+            }
         });
     } else 
     {
-      axios.post(API, currentGrade, { withCredentials: true })
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addGrade`, currentGrade, { withCredentials: true })
         .then(() => {
           toast.success('Grade added successfully', {
             position: 'bottom-right',
@@ -97,15 +112,29 @@ const GradeComponent = ({isAdmin}) => {
 
   
   const fetchGrades = () => {
-    axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getGrade', { withCredentials: true })
+    axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/getGrade`, { withCredentials: true })
       .then((response) => {
         setGrades(response.data);
       })
       .catch((error) => {
-        toast.error(error.message, {
-          position: 'bottom-right',
-          autoClose: 3000,
-        });
+        if(error.response.status == 401)
+          {
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+            toast.error('Authentication failed: Login again', {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
+          else
+          {
+            toast.error(error.response.data.message,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
       });
   };
 
@@ -150,7 +179,7 @@ const GradeComponent = ({isAdmin}) => {
         <div className="modal-backdrop">
           <div className="modal" ref={modalRef}>
             <button className="close-modal-button" onClick={handleToggleModal}>X</button>
-            <h2>{isEditing ? 'Edit Grade' : 'Add New Grade'}</h2>
+            <h2 className='toggle-heading'>{isEditing ? 'Edit Grade' : 'Add New Grade'}</h2>
             <form>
               <div className="form-group">
                 <label>Grade No:</label>
@@ -197,7 +226,6 @@ const GradeComponent = ({isAdmin}) => {
           </div>
         </div>
       )}
-      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };

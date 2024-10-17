@@ -19,6 +19,7 @@ const PendingRequestComponent = () => {
             position: 'bottom-right',
             autoClose: 3000,
           });
+        setRequests((prevRequests) => prevRequests.filter(req => req._id !== requestId));
         })
       .catch((error) => {
         toast.error(error.message, {
@@ -27,17 +28,16 @@ const PendingRequestComponent = () => {
           });
       });
   };
-  // Fetch pending requests from the backend
+
   useEffect(() => {
     axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/pendingRequest', { withCredentials: true })
       .then(response => {
-        console.log(response.data)
         setRequests(response.data);
       })
       .catch(error => {
         console.error('Error fetching pending requests:', error);
       });
-  }, [handleRequestAction]);
+  }, []);
 
 
   return (

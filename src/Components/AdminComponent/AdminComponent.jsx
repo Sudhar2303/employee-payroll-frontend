@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './AdminComponent.css';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import {toast } from 'react-toastify';
 import tempImage from '../../assets/image.png';
 import { House,Users,CreditCard,EllipsisVertical,Star,ClockAlert } from 'lucide-react';
 import AdminHomeComponent from './AdminHomeComponent/AdminHomeComponent';
@@ -31,21 +30,37 @@ const AdminComponent = () => {
   };
   const handleSignout = () =>
   {
-      axios.get(`https://employee-payroll-backend.vercel.app/api/v1/logout`, { withCredentials: true })
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/logout`,null, { withCredentials: true })
       .then((response)=>
       {
-        console.log(response)
-        toast.success(`Sign-out`, {
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+        toast.success(`SuccessFully Sign-out`, {
           position: "bottom-right",
           autoClose: 3000,
         });
       })
       .catch((error)=>
       {
-        toast.error(error.message, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
+        if(error.response.status == 401)
+        {
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+          toast.error('Authentication failed: Login again', {
+            position: "bottom-right",
+            autoClose: 3000,
+          });
+        }
+        else
+        {
+          toast.error(error.response.data.message,
+          {
+            position: "bottom-right",
+            autoClose: 3000,
+          });
+        }
       })
   }
 
@@ -63,12 +78,22 @@ const AdminComponent = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
-          navigate('/');
-          toast.error('Authentication failed: Login again', {
-            position: "bottom-right",
-            autoClose: 3000,
-          });
+          if(error.response.status == 401)
+          {
+            navigate('/');
+            toast.error('Authentication failed: Login again', {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
+          else
+          {
+            toast.error(error.response.data.message,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
         });
     };
 
@@ -160,13 +185,12 @@ const AdminComponent = () => {
           <Routes>
             <Route path='/' element={<AdminHomeComponent />} />
             <Route path='/people' element={<PeopleComponent isAdmin = {isAdmin} />} />
-            <Route path='/accounts' element={<AccountComponent />} />
+            <Route path='/accounts' element={<AccountComponent isAdmin = {isAdmin}/>} />
             <Route path='/grade' element={<GradeComponent isAdmin={isAdmin}/>} />
             <Route path='/request' element={<PendingRequestComponent/>} />
           </Routes>
         </div>
       )}
-      <ToastContainer />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Pie,Bar} from 'react-chartjs-2';
 import {Chart as ChartJS,ArcElement,Tooltip,Legend,CategoryScale, LinearScale,BarElement,} from 'chart.js';
 import '../HRComponent.css'
+import {toast } from 'react-toastify';
 import DepartmentEmployeeBarChart from '../../AdminComponent/AdminHomeComponent/BarChartComponent/BarChartComponent';
 import TableRowComponent from '../../AdminComponent/AdminHomeComponent/TableRowComponent/TableRowComponent';
 import CardContainerComponent from '../../AdminComponent/AdminHomeComponent/CardContainerComponent/CardContainerComponent';
@@ -68,35 +69,59 @@ const HRHomeComponent = () =>
     useEffect(() => {
         const getCount = () =>
         {
-            axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getDepartmentViceCount', { withCredentials: true })
+            axios.get('https://employee-payroll-backend.vercel.app/api/v1/hr/getDepartmentViceCount', { withCredentials: true })
             .then((response) => 
             {
                 setDepartmentCounts(response.data)
             })
             .catch((error) => {
-                console.log(error.message);
-                navigate('/');
-                toast.error('Authentication failed: Login again', {
-                position: "bottom-right",
-                autoClose: 3000,
-                });
+                if(error.response.status == 401)
+                    {
+                      setTimeout(() => {
+                        navigate('/');
+                      }, 2000);
+                      toast.error('Authentication failed: Login again', {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                      });
+                    }
+                    else
+                    {
+                      toast.error(error.response.data.message,
+                      {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                      });
+                    }
             });
         }
         getCount();
 
         const getData = () =>
         {
-            axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
+            axios.get('https://employee-payroll-backend.vercel.app/api/v1/hr/getEmployee', { withCredentials: true })
             .then((response) => {
                 setEmployeeData(response.data)
             })
             .catch((error) => {
-                console.log(error.message);
-                navigate('/');
-                toast.error('Authentication failed: Login again', {
-                position: "bottom-right",
-                autoClose: 3000,
-                });
+                if(error.response.status == 401)
+                {
+                    setTimeout(() => {
+                    navigate('/');
+                    }, 2000);
+                    toast.error('Authentication failed: Login again', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
+                else
+                {
+                    toast.error(error.response.data.message,
+                    {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
             });
         }
         getData();
@@ -115,7 +140,7 @@ const HRHomeComponent = () =>
 
         const getEmployeeCount = () =>
             {
-              axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/employeeCount', { withCredentials: true })
+              axios.get('https://employee-payroll-backend.vercel.app/api/v1/hr/employeeCount', { withCredentials: true })
               .then((response) => 
               {
                 const formatted = [
@@ -128,10 +153,24 @@ const HRHomeComponent = () =>
               })
               .catch((error)=>
               {
-                  toast.error(error.message, {
-                  position: "bottom-right",
-                  autoClose: 3000,
-                  });
+                if(error.response.status == 401)
+                {
+                    setTimeout(() => {
+                    navigate('/');
+                    }, 2000);
+                    toast.error('Authentication failed: Login again', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
+                else
+                {
+                    toast.error(error.response.data.message,
+                    {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    });
+                }
               })
             }
             getEmployeeCount();

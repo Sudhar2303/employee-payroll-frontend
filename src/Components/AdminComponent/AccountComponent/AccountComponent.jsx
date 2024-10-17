@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import {toast } from 'react-toastify';
 import './AccountComponent.css';
 import TableRowComponent from '../AdminHomeComponent/TableRowComponent/TableRowComponent';
 import CardContainerComponent from '../AdminHomeComponent/CardContainerComponent/CardContainerComponent';
 
-const AccountComponent = () => {
+const AccountComponent = ({isAdmin}) => {
   const navigate = useNavigate();
   const paymentData = [
     {
-      _id: 1,                          // Unique ID for each object
+      _id: 1,                          
       heading: "Total Balance",
       value: 9876,
       isCurrency: true
@@ -39,19 +40,32 @@ const AccountComponent = () => {
   {
     
   }
+  const role = (isAdmin) ? 'admin' : 'hr'
   useEffect(() => {
       
-      axios.get('https://employee-payroll-backend.vercel.app/api/v1/admin/getEmployee', { withCredentials: true })
+      axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/getEmployee`, { withCredentials: true })
       .then((response) => {
           setEmployeeData(response.data);
       })
       .catch((error) => {
-          console.log(error.message);
-          navigate('/');
-          toast.error('Authentication failed: Login again', {
-          position: "bottom-right",
-          autoClose: 3000,
-          });
+        if(error.response.status == 401)
+          {
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+            toast.error('Authentication failed: Login again', {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
+          else
+          {
+            toast.error(error.response.data.message,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
+          }
       });
     }, []);
 

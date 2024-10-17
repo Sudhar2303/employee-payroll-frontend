@@ -2,8 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './AddEmployeeDataComponent.css';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
@@ -81,7 +80,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
   const handleBackClick = () => {
     setShowAddEmployeeForm(false);
   };
-
+  const ROLE = (isAdmin) ? 'admin' : 'hr'
   const formSubmitHandler = (event) => {
     event.preventDefault();
     const validationErrors = {};
@@ -92,7 +91,8 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
           employeeID: employeeData.employeeID,
           employeeName: employeeData.employeeName,
           role: employeeData.role,
-          emailID: employeeData.emailID
+          emailID: employeeData.emailID,
+          gender : employeeData.gender
         },
         gradeNo: {
           gradeNo: parseInt(employeeData.grade)
@@ -101,52 +101,41 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
         salary: 0,  
         totalWorkingHours: 0  
       };
-      if(isAdmin)
-      {
-          axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addEmployee`, formattedData, { withCredentials: true })
-          .then((response) => {
-            setShowAddEmployeeForm(false);
-            toast.success(`New Employee Added Successfully`, {
+    
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/${ROLE}/addEmployee`, formattedData, { withCredentials: true })
+      .then((response) => {
+        console.log(response)
+        setShowAddEmployeeForm(false);
+        toast.success(`New Employee Added Successfully`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      })
+      .catch((error) => {
+        if(error.response.status == 401)
+          {
+            setTimeout(() => {
+              navigate('/');
+            }, 2000);
+            toast.error('Authentication failed: Login again', {
               position: "bottom-right",
               autoClose: 3000,
             });
-          })
-          .catch((error) => {
-            if (error.response.status === 401) {
-              alert('Unauthorized access: Please log in.');
-              window.location.href = '/';
-            }
-            if (error.response) {
-              alert(`Status ${error.response.status} - ${error.response.message}`);
-            }
-            console.log(error);
-          });
-      }
-      else
-      {
-        console.log(formattedData)
-        axios.post(`https://employee-payroll-backend.vercel.app/api/v1/hr/addEmployee`, formattedData, { withCredentials: true })
-        .then((response) => {
-          setShowAddEmployeeForm(false);
-          toast.success(`New Employee Added Successfully`, {
-            position: "bottom-right",
-            autoClose: 3000,
-          });
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            alert('Unauthorized access: Please log in.');
-            window.location.href = '/';
           }
-          if (error.response) {
-            alert(`Status ${error.response.status} - ${error.response.message}`);
+          else
+          {
+            toast.error(error.response.data.message,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            });
           }
-          console.log(error);
-        });
-      }
-      
-    } else {
-      setErrors(validationErrors); // Ensure the errors state is updated if there are errors.
+      });
+
+    } 
+    else 
+    {
+      setErrors(validationErrors);
     }
   };
   
@@ -213,10 +202,10 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               >
                 <option value=''>Select Role</option>
                 <option value='hr'>HR</option>
-                <option value='Designer'>Designer</option>
-                <option value='Developer'>Developer</option>
-                <option value='Manager'>Manager</option>
-                <option value='Tester'>Tester</option>
+                <option value='designer'>Designer</option>
+                <option value='developer'>Developer</option>
+                <option value='manager'>Manager</option>
+                <option value='tester'>Tester</option>
               </select>
             </div>
             
@@ -305,7 +294,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               </button>
             </div>
           </form>
-          <ToastContainer />
         </div>
     </React.Fragment>
   );
