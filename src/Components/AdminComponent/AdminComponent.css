@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: space-evenly;
   border-bottom: 1px solid #3131317c;
-  padding: 10%;
+  padding: 5%;
   height: 10%;
 }
 .app-logo
@@ -48,7 +48,8 @@
 .navbar-list-name {
   display: flex;                   
   align-items: center;             
-  padding: 10px; 
+  margin: 5px 0; 
+  padding: 5px 10px;
   color: inherit;                                
   text-decoration: none;           
   border-radius: 5px;             
@@ -56,36 +57,42 @@
 }
 
 .navbar-list-name:hover {
-  background-color: #FFFFFF;      
+  background-color: #686868;      
   color: #000;                     
 }
-
 
 .navbar-list-name svg {
   margin-right: 10px;              
   font-size: 1.2em;                
 }
-
+.navbar-list-name.active
+{
+  background-color: white;
+  color: #2196F3;
+}
 .user-profile-container
 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   border-top: 1px solid #3131317c;
-  padding: 10%;
   height: 10%;
 }
 .user-image
 {
-  height: 35px;
+  height: 27px;
   border-radius: 50%;
-  margin-right: 12px;
+  margin-right: 7px;
 }
 .user-profile
 {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+.user-name
+{
+  font-size: 12px;
 }
 .welcome-tag
 {

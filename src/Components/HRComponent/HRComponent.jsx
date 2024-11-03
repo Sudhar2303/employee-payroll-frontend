@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, Route, Router, Routes } from 'react-router-dom';
+import { Link, Route, Router, Routes, useLocation } from 'react-router-dom';
 import AccountComponent from '../AdminComponent/AccountComponent/AccountComponent';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import HRHomeComponent from './HRHomeComponent/HRHomeComponent';
 import { House,Users,CreditCard,EllipsisVertical,Star} from 'lucide-react';
 import tempImage from '../../assets/image.png';
 import GradeComponent from '../AdminComponent/GradeComponent/GradeComponent';
+import logoImage from '../../../logo-image.png';
 
 const HRComponent = () => {
   const navigate = useNavigate();
@@ -17,8 +18,10 @@ const HRComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const location = useLocation();
+  const [userDetails,setUserDetails] = useState([])
 
-  const handleIconClick = () => {
+  const handleIconClick = () => { 
     setShowDropdown((prevState) => !prevState);
   };
 
@@ -32,9 +35,7 @@ const HRComponent = () => {
       axios.post(`https://employee-payroll-backend.vercel.app/api/v1/logout`,null, { withCredentials: true })
       .then((response)=>
       {
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
+        navigate('/');
         toast.success(`SuccessFully Sign-out`, {
           position: "bottom-right",
           autoClose: 3000,
@@ -48,22 +49,26 @@ const HRComponent = () => {
         });
       })
   }
+  const isActive = (path) => location.pathname === path;
+
   useEffect(()=>
   {
     const getData = () => {
         axios
           .get(`https://employee-payroll-backend.vercel.app/api/v1/hr/authenticate`,{withCredentials: true})
-          .then((response)=>{
-            if(response.status==201)
-              {
-                  setIsHR(true);
-                  toast.success(`Welcome HR`, 
+          .then((response)=>
+            {
+                setUserDetails(response.data)
+                if(response.status==201)
                   {
-                      position: "bottom-right",
-                      autoClose: 3000,
-                  })
-              }
-          })
+                      setIsHR(true);
+                      toast.success(`Welcome HR`, 
+                      {
+                          position: "bottom-right",
+                          autoClose: 3000,
+                      })
+                  }
+              })
           .catch((error)=>
             {
               console.log(error)
@@ -122,24 +127,24 @@ const HRComponent = () => {
         <div className="hr-component">
             <div className='sidebar'>
               <div className='company-name-logo'>
-                <img src='logo-image.png' className='app-logo' alt="logo" />
-                <p className='app-name'>Employee Payroll</p>
+                <img src={logoImage} className='app-logo' alt="logo" />
+                <p className='app-name'>Payroll Management</p>
               </div>
-              <div className='navbar'>
-                <Link to="/hr" className='navbar-list-name'>
-                  <House/>
+               <div className='navbar'>
+                <Link to="/hr" className={`navbar-list-name ${isActive('/hr') ? 'active' : ''}`}>
+                  <House />
                   Home
                 </Link>
-                <Link to="/hr/people" className='navbar-list-name'>
-                  <Users/>
+                <Link to="/hr/people" className={`navbar-list-name ${isActive('/hr/people') ? 'active' : ''}`}>
+                  <Users />
                   People
                 </Link>
-                <Link to="/hr/grade" className='navbar-list-name'>
-                  <Star className='icon'/>
-                    Grade
+                <Link to="/hr/grade" className={`navbar-list-name ${isActive('/hr/grade') ? 'active' : ''}`}>
+                  <Star />
+                  Grade
                 </Link>
-                <Link to="/hr/accounts" className='navbar-list-name'>
-                  <CreditCard/>
+                <Link to="/hr/accounts" className={`navbar-list-name ${isActive('/hr/accounts') ? 'active' : ''}`}>
+                  <CreditCard />
                   Account
                 </Link>
               </div>
@@ -147,8 +152,8 @@ const HRComponent = () => {
                 <div className='user-profile'>
                   <img src={tempImage} className='user-image' alt="user" />
                   <div className='user-name'>
-                    <p>UserName</p>
-                    <p style={{opacity:0.6}}>email-id</p>
+                    <p>{userDetails.name}</p>
+                    <p style={{opacity:0.6}}>{userDetails.emailID}</p>
                   </div>
                 </div>
                 <div onClick={handleIconClick} className="dropdown-icon">

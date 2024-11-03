@@ -14,55 +14,59 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
     grade: '',
     basicPay: '',
     gender: '',
-    emailID: ''  // Added emailID field
+    emailID: ''  
   });
   const [errors, setErrors] = useState({});
 
   const validateField = (fieldName, value) => {
     let newErrors = { ...errors };
-
+  
     if (fieldName === 'employeeID' && !value) {
       newErrors.employeeID = 'Please enter the Employee ID';
     } else if (fieldName === 'employeeID') {
       delete newErrors.employeeID;
     }
-
+  
     if (fieldName === 'employeeName' && !value) {
       newErrors.employeeName = 'Please enter the Employee Name';
     } else if (fieldName === 'employeeName') {
       delete newErrors.employeeName;
     }
-
+  
     if (fieldName === 'role' && !value) {
       newErrors.role = 'Please enter the Role';
     } else if (fieldName === 'role') {
       delete newErrors.role;
     }
-
+  
     if (fieldName === 'grade' && !value) {
       newErrors.grade = 'Please enter the Grade';
     } else if (fieldName === 'grade') {
       delete newErrors.grade;
     }
-
-    if (fieldName === 'basicPay' && !value) {
-      newErrors.basicPay = 'Please enter the Basic Pay';
-    } else if (fieldName === 'basicPay') {
-      delete newErrors.basicPay;
+  
+    if (fieldName === 'basicPay') {
+      if (!value) {
+        newErrors.basicPay = 'Please enter the Basic Pay';
+      } else if (value < 0) {
+        newErrors.basicPay = 'Basic Pay cannot be a negative value';
+      } else {
+        delete newErrors.basicPay;
+      }
     }
-
+  
     if (fieldName === 'gender' && !value) {
       newErrors.gender = 'Please enter the Gender';
     } else if (fieldName === 'gender') {
       delete newErrors.gender;
     }
-
+  
     if (fieldName === 'emailID' && !value) {
       newErrors.emailID = 'Please enter the Email ID';
     } else if (fieldName === 'emailID') {
       delete newErrors.emailID;
     }
-
+  
     setErrors(newErrors);
   };
 
@@ -83,6 +87,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
   const ROLE = (isAdmin) ? 'admin' : 'hr'
   const formSubmitHandler = (event) => {
     event.preventDefault();
+    
     const validationErrors = {};
 
     if (Object.keys(validationErrors).length === 0) {
@@ -201,7 +206,9 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 onBlur={handleBlur}
               >
                 <option value=''>Select Role</option>
-                <option value='hr'>HR</option>
+                {isAdmin &&
+                  <option value='hr'>HR</option>
+                }
                 <option value='designer'>Designer</option>
                 <option value='developer'>Developer</option>
                 <option value='manager'>Manager</option>
@@ -211,7 +218,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
             
             <div className='form-group'>
               <div className='form-title'>
-                <p>Email ID</p>  {/* Added Email ID field */}
+                <p>Email ID</p>  
               </div>
               {errors.emailID && <div className='form-error-message'>
                 <p>{errors.emailID}</p>

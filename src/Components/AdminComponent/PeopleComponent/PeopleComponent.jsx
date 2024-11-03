@@ -16,13 +16,14 @@ const PeopleComponent = ({isAdmin}) =>
     const [showUpdateComponent,setShowUpdateComponent] = useState(false);
     const [selectedEmployeeData,setSelectedEmployeeData] = useState([]);
     const [employeeCount ,setEmployeeCount] = useState([]);
+    const [isLoading,setIsLoading] = useState(true)
+    const [isLoadingCard, setIsLoadingCard] = useState(true)
     const handleAddEmployeeClick = () =>
     {
       setShowAddEmployeeForm(true);
     };
     const handleEditEmployee = (employeeID) =>
     {
-      console.log(employeeID)
       setShowUpdateComponent(true);
       setSelectedEmployeeData(employeeID);
     }
@@ -32,6 +33,7 @@ const PeopleComponent = ({isAdmin}) =>
         axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/getEmployee`, { withCredentials: true })
         .then((response) => {
             setEmployeeData(response.data);
+            setIsLoading(false)
         })
         .catch((error) => {
           if(error.response.status == 401)
@@ -52,6 +54,7 @@ const PeopleComponent = ({isAdmin}) =>
                 autoClose: 3000,
               });
             }
+            setIsLoading(false)
         });
       }
       getData();
@@ -67,7 +70,8 @@ const PeopleComponent = ({isAdmin}) =>
             {_id: "03",heading: "Female Employees", value: response.data.genderCount.find(g => g._id === "female").count },
             {_id: "04", heading: "Trainee Employees", value: response.data.traineeCount }
           ];
-            setEmployeeCount(formatted);
+          setEmployeeCount(formatted);
+          setIsLoadingCard(false)
         })
         .catch((error)=>
         {
@@ -75,6 +79,7 @@ const PeopleComponent = ({isAdmin}) =>
             position: "bottom-right",
             autoClose: 3000,
             });
+            setIsLoadingCard(false)
         })
       }
       getEmployeeCount();
@@ -92,7 +97,7 @@ const PeopleComponent = ({isAdmin}) =>
                     <button className='submit-button'>Add New Employee</button>
                 </div>
                 <div className="people-details">
-                    <CardContainerComponent data = {employeeCount}/>
+                    <CardContainerComponent data = {employeeCount} isLoading={isLoadingCard}/>
                 </div>
                 <div className="employee-data-grid">
                     <div className="header">
@@ -101,10 +106,10 @@ const PeopleComponent = ({isAdmin}) =>
                         <div className="header-item">Role</div>
                         <div className="header-item">Basic Pay</div>
                         <div className="header-item">Grade</div>
-                        <div className="header-item">salary</div>
                         <div className="header-item">TotalWorkingHours</div>
+                        <div className="header-item">Status</div>
                     </div>
-                    <TableRowComponent EmployeeData={EmployeeData} actionType="edit" onAction={handleEditEmployee}/>
+                    <TableRowComponent EmployeeData={EmployeeData} actionType="edit" onAction={handleEditEmployee} isLoading={isLoading}/>
                 </div>
             </div>
            

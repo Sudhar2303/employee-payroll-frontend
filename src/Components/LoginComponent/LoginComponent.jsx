@@ -4,12 +4,13 @@ import './LoginComponent.css'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
-
+import { KeyRound } from 'lucide-react';
 
 const LoginComponent = () => {
     const navigate = useNavigate();
     const [emailID, setEmailID] = useState('')
     const [password, setPassword] = useState('')
+    const [showCredentials, setShowCredentials] = useState(false);
 
     const handleEmailID =(event) =>{
         setEmailID(event.target.value)
@@ -48,7 +49,6 @@ const LoginComponent = () => {
                 }
                 else
                 {
-                    //alert("Login in again")
                     toast.error(`Login in again`, 
                     {
                         position: "bottom-right",
@@ -69,7 +69,37 @@ const LoginComponent = () => {
     <React.Fragment>
         <div className='login-main-content'>
             <div className='title'>
-                Employee Payroll
+                Payroll Management
+                <div className='login-credentials'> 
+                    <div className='credentials-header' onClick={() => setShowCredentials(!showCredentials)}>
+                        <KeyRound className='key-icon'/>
+                        <p>login credentials</p>
+                    </div>
+                    { showCredentials && <div className='credentials'>
+                        <div className='login-data'>
+                            <p className='field-header'>For Admin Login</p>
+                            <div className='credentials-field'>
+                                <p>Email-ID :</p>
+                                <p className='field-value'>admin123@gmail.com</p>
+                            </div>
+                            <div className='credentials-field'> 
+                                <p >Password :</p>
+                                <p className='field-value'>12345</p>
+                        </div>
+                        </div>
+                        <div>
+                            <p className='field-header'>For HR Login</p>
+                            <div className='credentials-field'>
+                                <p>Email-ID :</p>
+                                <p className='field-value'>hr123@gmail.com</p>
+                            </div>
+                            <div className='credentials-field'>
+                                <p>Password :</p>
+                                <p className='field-value'>12345</p>
+                            </div>
+                        </div>
+                    </div> }
+                </div>
             </div>
             <form className="login-form">
                 <div className='login-header'>

@@ -28,11 +28,53 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
 
   const validateField = (fieldName, value) => {
     let newErrors = { ...errors };
-    if (!value) {
-      newErrors[fieldName] = `Please enter ${fieldName.replace(/([A-Z])/g, ' $1').toLowerCase()}`;
-    } else {
-      delete newErrors[fieldName];
+  
+    if (fieldName === 'employeeID' && !value) {
+      newErrors.employeeID = 'Please enter the Employee ID';
+    } else if (fieldName === 'employeeID') {
+      delete newErrors.employeeID;
     }
+  
+    if (fieldName === 'employeeName' && !value) {
+      newErrors.employeeName = 'Please enter the Employee Name';
+    } else if (fieldName === 'employeeName') {
+      delete newErrors.employeeName;
+    }
+  
+    if (fieldName === 'role' && !value) {
+      newErrors.role = 'Please enter the Role';
+    } else if (fieldName === 'role') {
+      delete newErrors.role;
+    }
+  
+    if (fieldName === 'grade' && !value) {
+      newErrors.grade = 'Please enter the Grade';
+    } else if (fieldName === 'grade') {
+      delete newErrors.grade;
+    }
+  
+    if (fieldName === 'basicPay') {
+      if (!value) {
+        newErrors.basicPay = 'Please enter the Basic Pay';
+      } else if (value < 0) {
+        newErrors.basicPay = 'Basic Pay cannot be a negative value';
+      } else {
+        delete newErrors.basicPay;
+      }
+    }
+  
+    if (fieldName === 'gender' && !value) {
+      newErrors.gender = 'Please enter the Gender';
+    } else if (fieldName === 'gender') {
+      delete newErrors.gender;
+    }
+  
+    if (fieldName === 'emailID' && !value) {
+      newErrors.emailID = 'Please enter the Email ID';
+    } else if (fieldName === 'emailID') {
+      delete newErrors.emailID;
+    }
+  
     setErrors(newErrors);
   };
 
@@ -48,6 +90,20 @@ const EditEmployeeDetailsComponent = ({ employee, setShowUpdateComponent, isAdmi
   const formSubmitHandler = (event) => {
     event.preventDefault();
 
+    const isUnchanged =
+    formData.employeeID === employee.employeeID.employeeID &&
+    formData.employeeName === employee.employeeID.employeeName &&
+    formData.role === employee.employeeID.role &&
+    formData.gradeNo === employee.gradeNo.gradeNo &&
+    formData.basicPay === employee.basicPay;
+
+  if (isUnchanged) {
+    toast.error("No changes made to update", {
+      position: "bottom-right",
+      autoClose: 3000,
+    });
+    return;
+  }
     const validationErrors = {};
     
     if (Object.keys(validationErrors).length === 0) {

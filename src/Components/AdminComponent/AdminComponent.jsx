@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './AdminComponent.css';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {toast } from 'react-toastify';
 import tempImage from '../../assets/image.png';
+import logoImage from '../../../logo-image.png';
 import { House,Users,CreditCard,EllipsisVertical,Star,ClockAlert } from 'lucide-react';
 import AdminHomeComponent from './AdminHomeComponent/AdminHomeComponent';
 import PeopleComponent from './PeopleComponent/PeopleComponent';
@@ -17,7 +18,8 @@ const AdminComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
-
+  const location = useLocation();
+  const [userDetails,setUserDetails] = useState([])
 
   const handleIconClick = () => {
     setShowDropdown((prevState) => !prevState);
@@ -28,14 +30,16 @@ const AdminComponent = () => {
       setShowDropdown(false);
     }
   };
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   const handleSignout = () =>
   {
       axios.post(`https://employee-payroll-backend.vercel.app/api/v1/logout`,null, { withCredentials: true })
       .then((response)=>
       {
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
+        navigate('/')
         toast.success(`SuccessFully Sign-out`, {
           position: "bottom-right",
           autoClose: 3000,
@@ -69,7 +73,9 @@ const AdminComponent = () => {
       axios
         .get(`https://employee-payroll-backend.vercel.app/api/v1/admin/authenticate`, { withCredentials: true })
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 201) 
+          {
+            setUserDetails(response.data)
             setIsAdmin(true);
             toast.success(`Welcome admin`, {
               position: "bottom-right",
@@ -133,28 +139,47 @@ const AdminComponent = () => {
         <div className='admin-component'>
           <div className='sidebar'>
             <div className='company-name-logo'>
-              <img src='logo-image.png' className='app-logo' alt="logo" />
-              <p className='app-name'>Employee Payroll</p>
+              <img src={logoImage} className='app-logo' alt="logo" />
+              <p className='app-name'>Payroll Management</p>
             </div>
             <div className='navbar'>
-              <Link to="/admin" className='navbar-list-name'>
+              <Link 
+                to="/admin" 
+                className={`navbar-list-name ${isActive('/admin') ? 'active' : ''}`}
+              >
                 <House className='icon'/>
                 Home
               </Link>
-              <Link to="/admin/people" className='navbar-list-name'>
+              
+              <Link 
+                to="/admin/people" 
+                className={`navbar-list-name ${isActive('/admin/people') ? 'active' : ''}`}
+              >
                 <Users className='icon'/>
                 People
               </Link>
-              <Link to="/admin/grade" className='navbar-list-name'>
+              
+              <Link 
+                to="/admin/grade" 
+                className={`navbar-list-name ${isActive('/admin/grade') ? 'active' : ''}`}
+              >
                 <Star className='icon'/>
-                  Grade
+                Grade
               </Link>
-              <Link to="/admin/request" className='navbar-list-name'>
-                <ClockAlert  className='icon'/>
-                  Request
+              
+              <Link 
+                to="/admin/request" 
+                className={`navbar-list-name ${isActive('/admin/request') ? 'active' : ''}`}
+              >
+                <ClockAlert className='icon'/>
+                Request
               </Link>
-              <Link to="/admin/accounts" className='navbar-list-name'>
-              <CreditCard className='icon'/>
+              
+              <Link 
+                to="/admin/accounts" 
+                className={`navbar-list-name ${isActive('/admin/accounts') ? 'active' : ''}`}
+              >
+                <CreditCard className='icon'/>
                 Account
               </Link>
             </div>
@@ -162,8 +187,8 @@ const AdminComponent = () => {
               <div className='user-profile'>
                 <img src={tempImage} className='user-image' alt="user" />
                 <div className='user-name'>
-                  <p>UserName</p>
-                  <p style={{opacity : 0.6}}>email-id</p>
+                  <p>{userDetails.name}</p>
+                  <p style={{opacity : 0.6}}>{userDetails.emailID}</p>
                 </div>
               </div>
               <div onClick={handleIconClick} className="dropdown-icon">

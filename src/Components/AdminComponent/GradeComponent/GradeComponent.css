@@ -148,3 +148,8 @@
   .save-button:hover {
     background-color: #1976D2;
   }
+  
+  .placeholder
+  {
+    padding: 9%;
+  }

@@ -50,3 +50,11 @@
     margin-top: 3%;
     width: 100%;
 }
+.hr-account-details
+{
+    margin-left: 10%;
+    width: 55%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between
+}

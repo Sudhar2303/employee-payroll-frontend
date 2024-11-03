@@ -14,7 +14,8 @@ const GradeComponent = ({isAdmin}) => {
   const modalRef = useRef();
   const [kebabMenuVisible, setKebabMenuVisible] = useState(null); 
   const kebabMenuRef = useRef(null); 
-  
+  const [isLoading,setIsLoading] = useState(true)
+
   const kebabMenuHandler = (id) => {
     setKebabMenuVisible((prev) => (prev === id ? null : id)); 
   };
@@ -42,8 +43,7 @@ const GradeComponent = ({isAdmin}) => {
 
 
   const handleEditGrade = (grade) => {
-    console.log(grade)
-    setCurrentGrade({ gradeNo: grade.gradeNo, basicPay: grade.basicPay, hra: grade.hra, da: grade.da }); 
+    setCurrentGrade({ gradeNo: grade.gradeNo, basicPay: grade.basicPay, hra: grade.hra * 100, da: grade.da *100 }); 
     setIsEditing(true); 
     setIsModalOpen(true);
   };
@@ -58,10 +58,16 @@ const GradeComponent = ({isAdmin}) => {
   };
 
   const role = (isAdmin) ? 'admin' : 'hr'
-  const handleSaveGrade = () => {
+  const handleSaveGrade = () => 
+  {
+    const gradeToSave = {
+      ...currentGrade,
+      hra: currentGrade.hra / 100, 
+      da: currentGrade.da / 100     
+    };
     if (isEditing) 
     {
-      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/updateGrade`, currentGrade, { withCredentials: true })
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/updateGrade`, gradeToSave, { withCredentials: true })
         .then(() => {
           toast.success('Grade updated successfully', {
             position: 'bottom-right',
@@ -92,7 +98,7 @@ const GradeComponent = ({isAdmin}) => {
         });
     } else 
     {
-      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addGrade`, currentGrade, { withCredentials: true })
+      axios.post(`https://employee-payroll-backend.vercel.app/api/v1/admin/addGrade`, gradeToSave, { withCredentials: true })
         .then(() => {
           toast.success('Grade added successfully', {
             position: 'bottom-right',
@@ -115,6 +121,7 @@ const GradeComponent = ({isAdmin}) => {
     axios.get(`https://employee-payroll-backend.vercel.app/api/v1/${role}/getGrade`, { withCredentials: true })
       .then((response) => {
         setGrades(response.data);
+        setIsLoading(false)
       })
       .catch((error) => {
         if(error.response.status == 401)
@@ -135,6 +142,7 @@ const GradeComponent = ({isAdmin}) => {
               autoClose: 3000,
             });
           }
+          setIsLoading(false)
       });
   };
 
@@ -148,12 +156,23 @@ const GradeComponent = ({isAdmin}) => {
     };
   }, []);
 
+  const renderPlaceholders = () => {
+    return Array(5).fill().map((_, index) => (
+      <div className="grade-card placeholder" key={index}>
+      </div>
+    ));
+  };
+
   return (
     <div className="grade-component">
       {isAdmin && <button className="add-grade-button" onClick={handleAddNewGrade}>Add Grade</button>}
 
       <div className="grade-card-container">
-        {grades.map((grade, index) => (
+        {
+          isLoading ? (
+            renderPlaceholders()
+          ) : (
+          grades.map((grade, index) => (
           <div className="grade-card" key={index}>
             <div className="grade-card-header">
               Grade No: {grade.gradeNo}
@@ -172,7 +191,8 @@ const GradeComponent = ({isAdmin}) => {
             <div className="grade-card-value">HRA: {grade.hra * 100}%</div>
             <div className="grade-card-value">DA: {grade.da * 100}%</div>
           </div>
-        ))}
+          )) )
+        }
       </div>
 
       {isModalOpen && (

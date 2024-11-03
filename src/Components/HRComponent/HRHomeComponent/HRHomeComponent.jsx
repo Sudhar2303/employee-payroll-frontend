@@ -18,7 +18,8 @@ const HRHomeComponent = () =>
     const [employeeCount ,setEmployeeCount] = useState([]);
     const [onlineCount, setOnlineCount] = useState();
     const [offlineCount, setOfflineCount] = useState();
-
+    const [isLoading,setIsLoading] = useState(true)
+    const [isLoadingCard, setIsLoadingCard] = useState(true)
     const data = {
         labels: ['Online', 'Offline'],
         datasets: [
@@ -102,6 +103,7 @@ const HRHomeComponent = () =>
             axios.get('https://employee-payroll-backend.vercel.app/api/v1/hr/getEmployee', { withCredentials: true })
             .then((response) => {
                 setEmployeeData(response.data)
+                setIsLoading(false)
             })
             .catch((error) => {
                 if(error.response.status == 401)
@@ -122,6 +124,7 @@ const HRHomeComponent = () =>
                     autoClose: 3000,
                     });
                 }
+                setIsLoading(false)
             });
         }
         getData();
@@ -150,6 +153,7 @@ const HRHomeComponent = () =>
                   {_id: "04", heading: "Trainee Employees", value: response.data.traineeCount }
                 ];
                   setEmployeeCount(formatted);
+                  setIsLoadingCard(false)
               })
               .catch((error)=>
               {
@@ -171,6 +175,7 @@ const HRHomeComponent = () =>
                     autoClose: 3000,
                     });
                 }
+                setIsLoadingCard(false)
               })
             }
             getEmployeeCount();
@@ -191,8 +196,8 @@ const HRHomeComponent = () =>
                     <p>Employee Availability</p>
                     <Pie data={data} options={options} />
                 </div>
-                <div className="home-account-details">
-                    <CardContainerComponent data = {employeeCount}/>
+                <div className="hr-account-details">
+                    <CardContainerComponent data = {employeeCount} isLoading={isLoadingCard}/>
                 </div>
                 <div className='hr-table'>
                     <div className="employee-data-grid">
@@ -202,10 +207,10 @@ const HRHomeComponent = () =>
                             <div className="header-item">Role</div>
                             <div className="header-item">Basic Pay</div>
                             <div className="header-item">Grade</div>
-                            <div className="header-item">salary</div>
-                            <div className="header-item">salary</div>
+                            <div className="header-item">TotalWorkingHours</div>
+                            <div className="header-item">Status</div>
                         </div>
-                        <TableRowComponent EmployeeData={employeeData}/>
+                        <TableRowComponent EmployeeData={employeeData} isLoading={isLoading}/>
                     </div>
                 </div>
             </div>

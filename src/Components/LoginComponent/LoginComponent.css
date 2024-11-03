@@ -1,6 +1,5 @@
-/* Styling the form container */
 .login-form {
-    background: rgba(3, 3, 3, 0.384);
+    background: #03030362;
     color: white;
     padding: 2rem;
     border: 1px solid #3131317c;
@@ -8,21 +7,20 @@
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
+    height: fit-content;
 }
 .title
 {
     color: white;
     font-size: 500%;
-    padding: 5% 0;
-    font-family: "Merriweather", serif;
-    font-weight: 300;
+    padding: 3% 5%;
+    font-weight: 500;
     font-style: italic;
+    
 }
 .login-header {
-    font-family: "Merriweather", serif;
     font-weight: 300;
     font-size: 22px;
-    font-style: normal;
     display:flex;
     justify-content: center;
     margin: 5px;
@@ -30,7 +28,6 @@
   
 .login-form .login-container {
     margin-bottom: 1.5rem;
-    font-family: "Merriweather", serif;
     font-weight: 300;
 }
 
@@ -65,12 +62,53 @@
 
 .login-main-content {
     width: 100%;
-    padding: 12% 18%;
+    padding: 14% 12%;
     flex: 1;
     display: flex;
     justify-content: center;
 }
-
+.login-credentials
+{
+    color: #2196F3;
+    font-size: 20%;
+    margin: 2% 0;
+    cursor: pointer;
+}
+.credentials
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 2% 0%;
+    background-color: white;
+    border: 1px solid #3131317c;
+    border-radius: 8px;
+    padding: 4% 0;
+    color: black;
+    font-style: normal;
+}
+.credentials-header
+{
+    display: flex;
+}
+.credentials-field
+{
+    display: flex;
+}
+.field-header
+{
+    font-weight: 700;
+    padding-bottom: 2%;
+}
+.field-value
+{
+    color: #2196F3;
+}
+.key-icon
+{
+    stroke-width: 2.5px;
+    padding-right: 3px;
+}
 @media only screen and (max-width: 576px) 
 {
     .login-main-content

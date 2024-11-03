@@ -1,7 +1,10 @@
 .account-component
 {
+    display: flex;
+    flex-wrap: wrap;
     margin-left: 20%;
-    margin-right: 2%;
+    padding: 2%;
+    width: 78%;
 }
 .account-details
 {

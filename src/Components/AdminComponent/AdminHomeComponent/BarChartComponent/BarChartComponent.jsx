@@ -14,9 +14,9 @@ ChartJS.register(
 
 const BarChartComponent = ({data,charTitle}) => {
 
-  const labels = data.map(item => item._id);  
+  const labels = data.map(item => item._id || item.salaryStatus);  
   const counts = data.map(item => item.count); 
-  
+
   const chartData = {
     labels: labels,
     datasets: [
