@@ -111,17 +111,19 @@ const AccountComponent = ({isAdmin}) => {
                 <CardContainerComponent data = {paymentData} isLoading={isLoadingCard} />
             </div>
         </div>
-      <div className="employee-data-grid">
-          <div className="header">
-              <div className="header-item">Employee ID</div>
-              <div className="header-item">Employee Name</div>
-              <div className="header-item">Role</div>
-              <div className="header-item">Basic Pay</div>
-              <div className="header-item">Payment Status</div>
-              <div className="header-item">TotalWorkingHours</div>
-              <div className="header-item">salary</div>
-          </div>
-          <TableRowComponent EmployeeData={EmployeeData} actionType="payment" onAction={handlePayment} isLoading={isLoading}/>
+        <div className='scrollable-container'>
+          <div className="employee-data-grid">
+              <div className="header">
+                  <div className="header-item">Employee ID</div>
+                  <div className="header-item">Employee Name</div>
+                  <div className="header-item">Role</div>
+                  <div className="header-item">Basic Pay</div>
+                  <div className="header-item">Payment Status</div>
+                  <div className="header-item">TotalWorkingHours</div>
+                  <div className="header-item">salary</div>
+              </div>
+              <TableRowComponent EmployeeData={EmployeeData} actionType="payment" onAction={handlePayment} isLoading={isLoading}/>
+            </div>
         </div>
       </div>
     </React.Fragment>

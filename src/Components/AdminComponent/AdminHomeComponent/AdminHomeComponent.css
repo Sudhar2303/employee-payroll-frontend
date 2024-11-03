@@ -24,13 +24,17 @@
   height: 40%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   
+}
+.scrollable-container {
+  max-width: 100%;
+  overflow-x: auto; 
 }
 .employee-data-grid
 {
   position: relative;
-  width: 100%;
+  min-width: 1000px;
   height: fit-content;
   display: flex;
   flex-wrap: wrap;
@@ -96,13 +100,13 @@
 }
 
 .card-container {
-    width: 240px;
+    /* width: 43%; */
     background-color: rgba(3, 3, 3, 0.384);
     border: 1px solid #3131317c;
     color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 14px;
+    padding: 2% 6% 2% 2%;
     margin-top: 2%;
     display: inline-block; 
     transition: transform 0.2s ease-in-out;
@@ -113,13 +117,13 @@
 }
 
 .card-header {
-    font-size: 20px;
+    font-size: 100%;
     padding-bottom: 8px;
     font-weight: 400;
 }
 
 .card-value {
-    font-size: 2rem;
+    font-size: 200%;
     font-weight: bold;
     color: #2196F3; 
     margin-bottom: 12px;

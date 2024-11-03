@@ -99,17 +99,19 @@ const PeopleComponent = ({isAdmin}) =>
                 <div className="people-details">
                     <CardContainerComponent data = {employeeCount} isLoading={isLoadingCard}/>
                 </div>
-                <div className="employee-data-grid">
-                    <div className="header">
-                        <div className="header-item">Employee ID</div>
-                        <div className="header-item">Employee Name</div>
-                        <div className="header-item">Role</div>
-                        <div className="header-item">Basic Pay</div>
-                        <div className="header-item">Grade</div>
-                        <div className="header-item">TotalWorkingHours</div>
-                        <div className="header-item">Status</div>
-                    </div>
-                    <TableRowComponent EmployeeData={EmployeeData} actionType="edit" onAction={handleEditEmployee} isLoading={isLoading}/>
+                <div className='scrollable-container'>
+                  <div className="employee-data-grid">
+                      <div className="header">
+                          <div className="header-item">Employee ID</div>
+                          <div className="header-item">Employee Name</div>
+                          <div className="header-item">Role</div>
+                          <div className="header-item">Basic Pay</div>
+                          <div className="header-item">Grade</div>
+                          <div className="header-item">TotalWorkingHours</div>
+                          <div className="header-item">Status</div>
+                      </div>
+                      <TableRowComponent EmployeeData={EmployeeData} actionType="edit" onAction={handleEditEmployee} isLoading={isLoading}/>
+                  </div>
                 </div>
             </div>
            
