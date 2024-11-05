@@ -128,7 +128,7 @@ const HRComponent = () => {
             <div className='sidebar'>
               <div className='company-name-logo'>
                 <img src={logoImage} className='app-logo' alt="logo" />
-                <Link to="/admin" className='app-name'>Payroll Management</Link>
+                <Link to="/hr" className='app-name'>Payroll Management</Link>
               </div>
                <div className='navbar'>
                 <Link to="/hr" className={`navbar-list-name ${isActive('/hr') ? 'active' : ''}`}>
