@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import PeopleComponent from '../AdminComponent/PeopleComponent/PeopleComponent';
 import '../AdminComponent/PeopleComponent/AddEmployeeDataComponent/AddEmployeeDataComponent.css'
 import HRHomeComponent from './HRHomeComponent/HRHomeComponent';
-import { House,Users,CreditCard,EllipsisVertical,Star} from 'lucide-react';
+import { House,Users,CreditCard,LogOut,Star} from 'lucide-react';
 import tempImage from '../../assets/image.png';
 import GradeComponent from '../AdminComponent/GradeComponent/GradeComponent';
 import logoImage from '../../../logo-image.png';
@@ -128,7 +128,7 @@ const HRComponent = () => {
             <div className='sidebar'>
               <div className='company-name-logo'>
                 <img src={logoImage} className='app-logo' alt="logo" />
-                <p className='app-name'>Payroll Management</p>
+                <Link to="/admin" className='app-name'>Payroll Management</Link>
               </div>
                <div className='navbar'>
                 <Link to="/hr" className={`navbar-list-name ${isActive('/hr') ? 'active' : ''}`}>
@@ -156,16 +156,9 @@ const HRComponent = () => {
                     <p style={{opacity:0.6}}>{userDetails.emailID}</p>
                   </div>
                 </div>
-                <div onClick={handleIconClick} className="dropdown-icon">
-                  <EllipsisVertical/>
+                <div onClick={handleSignout} className="dropdown-icon">
+                  <LogOut className='icon'/>
                 </div>
-                {showDropdown && (
-                  <div className="dropdown-menu" ref={dropdownRef}>
-                    <button className="sign-out-button" onClick={handleSignout}>
-                      Sign Out
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
             <div className='welcome-tag'>

@@ -10,60 +10,88 @@ const LoginComponent = () => {
     const navigate = useNavigate();
     const [emailID, setEmailID] = useState('')
     const [password, setPassword] = useState('')
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [showCredentials, setShowCredentials] = useState(false);
 
     const handleEmailID =(event) =>{
         setEmailID(event.target.value)
+        setEmailError('');
     }
     const handlePassword =(event) =>{
         setPassword(event.target.value)
+        setPasswordError('');
     }
-
+    const validateEmail = (email) => 
+    {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
     const handleRegistration =(event) =>
     {
         event.preventDefault()
-        axios
-        .post(`https://employee-payroll-backend.vercel.app/api/v1/login`,
-          {
-            emailID:emailID,
-            password:password
-          }, {withCredentials: true}
-        )
-        .then((response)=>
+        let isValid = true;
+
+        if (!emailID) 
         {
-          if(response.status==201)
+            setEmailError('Email is required');
+            isValid = false;
+        } 
+        else if (!validateEmail(emailID)) 
+        {
+            setEmailError('Please enter a valid email');
+            isValid = false;
+        }
+
+        if (!password) {
+            setPasswordError('Password is required');
+            isValid = false;
+        }
+        if (isValid) 
+        {
+            axios
+            .post(`https://employee-payroll-backend.vercel.app/api/v1/login`,
             {
-                window.localStorage.setItem('token',response.data.token)
-                if(response.data.role == 'admin')
+                emailID:emailID,
+                password:password
+            }, {withCredentials: true}
+            )
+            .then((response)=>
+            {
+            if(response.status==201)
                 {
-                    navigate('/admin')
-                }
-                else if(response.data.role == 'hr')
-                {
-                    navigate('/hr')
-                    toast.success(`Welcome hr`, 
+                    window.localStorage.setItem('token',response.data.token)
+                    if(response.data.role == 'admin')
                     {
-                        position: "bottom-right",
-                        autoClose: 3000,
-                    })
-                }
-                else
-                {
-                    toast.error(`Login in again`, 
+                        navigate('/admin')
+                    }
+                    else if(response.data.role == 'hr')
                     {
-                        position: "bottom-right",
-                        autoClose: 3000,
-                    })
+                        navigate('/hr')
+                        toast.success(`Welcome hr`, 
+                        {
+                            position: "bottom-right",
+                            autoClose: 3000,
+                        })
+                    }
+                    else
+                    {
+                        toast.error(`Login in again`, 
+                        {
+                            position: "bottom-right",
+                            autoClose: 3000,
+                        })
+                    }
                 }
-            }
-        })
-        .catch((error)=>{
-            console.log(error)
-            toast.error(`${error.response.data.message}`, {
-                position: "bottom-right",
-                autoClose: 3000,
             })
-        })
+            .catch((error)=>{
+                console.log(error)
+                toast.error(`${error.response.data.message}`, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                })
+            })
+        }
     }
   return (
     <React.Fragment>
@@ -109,23 +137,23 @@ const LoginComponent = () => {
                     <label htmlFor="emailID">Email</label>
                     <input 
                         type="text" 
-                        placeholder="Enter the email ID"
                         id="emailID"
                         name="emailID"
                         value={emailID}
                         onChange={handleEmailID}
                     />
+                    {emailError && <p className="form-error-message">{emailError}</p>}
                 </div>
                 <div className="login-container">
                     <label htmlFor="password">Password</label>
                     <input 
                         type="password" 
-                        placeholder="Enter the password"
                         id="password"
                         name="password"
                         value={password}
                         onChange={handlePassword}
                     />
+                    {passwordError && <p className="form-error-message">{passwordError}</p>}
                 </div>
                 <button onClick={handleRegistration}>Login</button>
             </form>

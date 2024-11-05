@@ -13,8 +13,8 @@
   }
   
   .request-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #03030362;
+    border: 1px solid #313131;
     border-radius: 8px;
     padding: 16px;
     margin: 16px 0;
@@ -26,7 +26,7 @@
   
   .request-details {
     flex: 1;
-    color: #333;
+    color: white;
   }
   
   .request-actions {

@@ -34,6 +34,8 @@
   font-weight: 600;
   font-size: 16px;
   padding-left: 6px;
+  color : white;
+  text-decoration: none;
 }
 .navbar 
 {
@@ -57,8 +59,8 @@
 }
 
 .navbar-list-name:hover {
-  background-color: #686868;      
-  color: #000;                     
+  background-color: #68686857;      
+  color: white;                     
 }
 
 .navbar-list-name svg {
@@ -67,8 +69,8 @@
 }
 .navbar-list-name.active
 {
-  background-color: white;
-  color: #2196F3;
+  background-color: #686868;      
+  color: white; 
 }
 .user-profile-container
 {

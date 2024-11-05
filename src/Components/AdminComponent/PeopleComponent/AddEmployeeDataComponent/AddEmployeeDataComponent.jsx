@@ -165,7 +165,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               <input
                 className='form-field'
                 type='text'
-                placeholder='Enter the Employee ID'
                 name='employeeID'
                 value={employeeID}
                 onChange={handleChange}
@@ -183,7 +182,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               <input
                 className='form-field'
                 type='text'
-                placeholder='Enter the Employee name'
                 name='employeeName'
                 value={employeeName}
                 onChange={handleChange}
@@ -226,7 +224,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               <input
                 className='form-field'
                 type='email'
-                placeholder='Enter Email ID'
                 name='emailID'
                 value={emailID}
                 onChange={handleChange}
@@ -287,7 +284,6 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
               <input
                 className='form-field'
                 type='number'
-                placeholder='Enter the Basic Pay'
                 name='basicPay'
                 value={basicPay}
                 onChange={handleChange}

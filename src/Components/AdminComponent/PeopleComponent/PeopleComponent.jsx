@@ -18,6 +18,7 @@ const PeopleComponent = ({isAdmin}) =>
     const [employeeCount ,setEmployeeCount] = useState([]);
     const [isLoading,setIsLoading] = useState(true)
     const [isLoadingCard, setIsLoadingCard] = useState(true)
+    
     const handleAddEmployeeClick = () =>
     {
       setShowAddEmployeeForm(true);

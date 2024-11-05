@@ -88,18 +88,19 @@
   
   /* Modal container */
   .modal {
-    background-color: white;
+    border: 1px solid #3131317c;
+    background-color: #030303bd;
     padding: 20px;
     border-radius: 8px;
     width: 400px;
     position: relative;
     z-index: 1001;
-    color: black;
+    color: white;
   }
   
  .toggle-heading
  {
-    color: black;
+    color: white;
  }
   .close-modal-button {
     position: absolute;
@@ -109,9 +110,9 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
+    color: white;
   }
   
-  /* Form styling inside modal */
   .form-group {
     margin: 3% 5%;
   }
@@ -119,7 +120,7 @@
   .form-group label {
     font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: white;
     display: block;
     margin-bottom: 8px;
   }
@@ -128,13 +129,14 @@
     width: 100%;
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 2px solid #3131317c;
     border-radius: 4px;
   }
   
   /* Save/Update button */
   .save-button {
-    width: 100%;
+    margin: 5px 16px;
+    width:90%;
     padding: 10px;
     background-color: #2196F3;
     color: white;

@@ -5,7 +5,7 @@ import axios from 'axios';
 import {toast } from 'react-toastify';
 import tempImage from '../../assets/image.png';
 import logoImage from '../../../logo-image.png';
-import { House,Users,CreditCard,EllipsisVertical,Star,ClockAlert } from 'lucide-react';
+import { House,Users,CreditCard,EllipsisVertical,Star,ClockAlert,LogOut } from 'lucide-react';
 import AdminHomeComponent from './AdminHomeComponent/AdminHomeComponent';
 import PeopleComponent from './PeopleComponent/PeopleComponent';
 import AccountComponent from './AccountComponent/AccountComponent';
@@ -140,7 +140,7 @@ const AdminComponent = () => {
           <div className='sidebar'>
             <div className='company-name-logo'>
               <img src={logoImage} className='app-logo' alt="logo" />
-              <p className='app-name'>Payroll Management</p>
+              <Link to="/admin" className='app-name'>Payroll Management</Link>
             </div>
             <div className='navbar'>
               <Link 
@@ -191,16 +191,9 @@ const AdminComponent = () => {
                   <p style={{opacity : 0.6}}>{userDetails.emailID}</p>
                 </div>
               </div>
-              <div onClick={handleIconClick} className="dropdown-icon">
-                <EllipsisVertical className='icon'/>
+              <div onClick={handleSignout} className="dropdown-icon">
+                <LogOut  className='icon'/>
               </div>
-              {showDropdown && (
-                <div className="dropdown-menu" ref={dropdownRef}>
-                  <button className="sign-out-button" onClick={handleSignout}>
-                    Sign Out
-                  </button>
-                </div>
-              )}
             </div>
           </div>
           <div className='welcome-tag'>
