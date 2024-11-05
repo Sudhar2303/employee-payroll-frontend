@@ -203,9 +203,9 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
-                <option value=''>Select Role</option>
+                <option value='' className='drop-drown'>Select Role</option>
                 {isAdmin &&
-                  <option value='hr'>HR</option>
+                  <option value='hr'  className='drop-drown'>HR</option>
                 }
                 <option value='designer'>Designer</option>
                 <option value='developer'>Developer</option>

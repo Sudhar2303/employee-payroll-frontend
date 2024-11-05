@@ -39,6 +39,11 @@
     color: white;
     border-radius: 3px;
     outline: none
+} 
+.form-field option
+{
+    background-color: inherit;
+    color: black;
 }
 .form-button
 {

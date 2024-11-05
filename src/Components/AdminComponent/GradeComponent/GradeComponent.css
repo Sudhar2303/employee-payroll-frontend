@@ -8,7 +8,7 @@
 .grade-card-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; 
+    justify-content: start; 
   }
   
   .grade-card {
@@ -19,7 +19,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 14px;
-    margin: 14px 0;
+    margin: 14px ;
     transition: transform 0.2s ease-in-out;
   }
   
@@ -130,6 +130,8 @@
     padding: 8px;
     font-size: 14px;
     border: 2px solid #3131317c;
+    background-color: #0000004b;
+    color: white;
     border-radius: 4px;
   }
   
