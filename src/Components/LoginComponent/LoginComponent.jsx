@@ -141,6 +141,7 @@ const LoginComponent = () => {
                         name="emailID"
                         value={emailID}
                         onChange={handleEmailID}
+                        autoComplete="off" 
                     />
                     {emailError && <p className="form-error-message">{emailError}</p>}
                 </div>
@@ -152,6 +153,7 @@ const LoginComponent = () => {
                         name="password"
                         value={password}
                         onChange={handlePassword}
+                        autoComplete="off" 
                     />
                     {passwordError && <p className="form-error-message">{passwordError}</p>}
                 </div>

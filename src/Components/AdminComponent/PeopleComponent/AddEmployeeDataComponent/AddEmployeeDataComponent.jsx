@@ -20,55 +20,73 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
 
   const validateField = (fieldName, value) => {
     let newErrors = { ...errors };
-  
-    if (fieldName === 'employeeID' && !value) {
-      newErrors.employeeID = 'Please enter the Employee ID';
-    } else if (fieldName === 'employeeID') {
-      delete newErrors.employeeID;
+    
+    const trimmedValue = value.trim();
+
+    if (fieldName === 'employeeID') {
+        if (!trimmedValue) {
+            newErrors.employeeID = 'Please enter the Employee ID';
+        } else if (/\s/.test(trimmedValue)) {
+            newErrors.employeeID = 'Employee ID cannot contain spaces';
+        } else if (/[^a-zA-Z0-9]/.test(trimmedValue)) {
+            newErrors.employeeID = 'Employee ID cannot contain special characters';
+        } else {
+            delete newErrors.employeeID;
+        }
+    }
+    
+    if (fieldName === 'employeeName') {
+        if (!trimmedValue) {
+            newErrors.employeeName = 'Please enter the Employee Name';
+        } else if (/\s/.test(trimmedValue)) {
+            newErrors.employeeName = 'Employee Name cannot contain spaces';
+        } else if (/[^a-zA-Z\s]/.test(trimmedValue)) {
+            newErrors.employeeName = 'Employee Name cannot contain special characters';
+        } else {
+            delete newErrors.employeeName;
+        }
     }
   
-    if (fieldName === 'employeeName' && !value) {
-      newErrors.employeeName = 'Please enter the Employee Name';
-    } else if (fieldName === 'employeeName') {
-      delete newErrors.employeeName;
-    }
-  
-    if (fieldName === 'role' && !value) {
-      newErrors.role = 'Please enter the Role';
+    if (fieldName === 'role' && !trimmedValue) {
+        newErrors.role = 'Please enter the Role';
     } else if (fieldName === 'role') {
-      delete newErrors.role;
+        delete newErrors.role;
     }
   
-    if (fieldName === 'grade' && !value) {
-      newErrors.grade = 'Please enter the Grade';
+    if (fieldName === 'grade' && !trimmedValue) {
+        newErrors.grade = 'Please enter the Grade';
     } else if (fieldName === 'grade') {
-      delete newErrors.grade;
+        delete newErrors.grade;
     }
   
     if (fieldName === 'basicPay') {
-      if (!value) {
-        newErrors.basicPay = 'Please enter the Basic Pay';
-      } else if (value < 0) {
-        newErrors.basicPay = 'Basic Pay cannot be a negative value';
-      } else {
-        delete newErrors.basicPay;
-      }
+        if (!value) {
+            newErrors.basicPay = 'Please enter the Basic Pay';
+        } else if (value < 0) {
+            newErrors.basicPay = 'Basic Pay cannot be a negative value';
+        } else {
+            delete newErrors.basicPay;
+        }
     }
   
-    if (fieldName === 'gender' && !value) {
-      newErrors.gender = 'Please enter the Gender';
+    if (fieldName === 'gender' && !trimmedValue) {
+        newErrors.gender = 'Please enter the Gender';
     } else if (fieldName === 'gender') {
-      delete newErrors.gender;
+        delete newErrors.gender;
     }
   
-    if (fieldName === 'emailID' && !value) {
-      newErrors.emailID = 'Please enter the Email ID';
-    } else if (fieldName === 'emailID') {
-      delete newErrors.emailID;
+    if (fieldName === 'emailID') {
+        if (!trimmedValue) {
+            newErrors.emailID = 'Please enter the Email ID';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue)) {
+            newErrors.emailID = 'Please enter a valid Email ID';
+        } else {
+            delete newErrors.emailID;
+        }
     }
-  
+
     setErrors(newErrors);
-  };
+};
 
   const handleBlur = (event) => {
     validateField(event.target.name, event.target.value);
@@ -169,6 +187,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 value={employeeID}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                autoComplete="off" 
               />
             </div>
 
@@ -186,6 +205,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 value={employeeName}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                autoComplete="off" 
               />
             </div>
 
@@ -228,6 +248,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 value={emailID}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                autoComplete="off" 
               />
             </div>
 
@@ -288,6 +309,7 @@ const AddEmployeeDataComponent = ({setShowAddEmployeeForm, isAdmin}) => {
                 value={basicPay}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                autoComplete="off" 
               />
             </div>
 
